@@ -16,6 +16,7 @@ reserved = {
     'sub' : 'SUB',
     'num' : 'NUM',
     'with' : 'WITH',
+    'id': 'ID'
 }
 
 tokens = tuple(tokens + list(reserved.values()))
@@ -64,6 +65,9 @@ class f:
     def interp(self):
         raise NotImplementedError
 
+    def subst(self, sym, val):
+        raise NotImplementedError
+
 
 class f_num(f):
     def __init__(self, arg):
@@ -72,6 +76,9 @@ class f_num(f):
 
     def interp(self):
         return self.arg[0]
+
+    def subst(self, sym, val):
+        return self
 
 
 class f_add(f):
@@ -82,6 +89,10 @@ class f_add(f):
     def interp(self):
         return self.arg[0].interp() + self.arg[1].interp()
 
+    def subst(self, sym, val):
+        return f_add([self.arg[0].subst(sym, val),
+                      self.arg[1].subst(sym, val)])
+
 
 class f_sub(f):
     def __init__(self, arg):
@@ -91,6 +102,10 @@ class f_sub(f):
     def interp(self):
         return self.arg[0].interp() - self.arg[1].interp()
 
+    def subst(self, sym, val):
+        return f_sub([self.arg[0].subst(sym, val),
+                      self.arg[1].subst(sym, val)])
+
 
 class f_with(f):
     def __init__(self, arg):
@@ -98,7 +113,18 @@ class f_with(f):
         self.name = "with"
 
     def interp(self):
-        raise NotImplementedError
+        return self.arg[2].subst(self.arg[0], self.arg[1].interp()).interp()
+
+    def subst(self, sym, val):
+        if sym == self.arg[0]:
+            return f_with([self.arg[0],
+                           self.arg[1].subst(sym, val),
+                           self.arg[2]])
+        else:
+            return f_with([self.arg[0],
+                           self.arg[1].subst(sym, val),
+                           self.arg[2].subst(sym, val)])
+
 
 
 class f_id(f):
@@ -107,7 +133,13 @@ class f_id(f):
         self.name = "id"
 
     def interp(self):
-        raise NotImplementedError
+        raise RuntimeError("error: free identifier " + self.arg[0])
+
+    def subst(self, sym, val):
+        if sym == self.arg[0]:
+            return f_num([val])
+        else:
+            return self
 
 
 def p_parse_statement_add(p):
@@ -123,8 +155,13 @@ def p_parse_statement_sub(p):
 
 
 def p_parse_statement_num(p):
-    '''statement : number'''
+    'statement : number'
     p[0] = p[1]
+
+
+def p_parse_statement_num2(p):
+    'statement : LPAREN NUM number RPAREN'
+    p[0] = p[3]
 
 
 def p_parse_statement_symbol(p):
@@ -132,8 +169,8 @@ def p_parse_statement_symbol(p):
     p[0] = p[1]
 
 
-def p_parse_statement_num2(p):
-    '''statement : LPAREN NUM number RPAREN'''
+def p_parse_statement_symbol2(p):
+    'statement : LPAREN ID sym RPAREN'
     p[0] = p[3]
 
 
@@ -141,9 +178,11 @@ def p_parse_statement_with(p):
     'statement : LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN'
     p[0] = f_with(['\'' + p[4], p[5], p[7]])
 
+
 def p_parse_statement_with2(p):
-    'statement : LPAREN WITH SYMBOL statement statement'
+    'statement : LPAREN WITH SYMBOL statement statement RPAREN'
     p[0] = f_with(['\'' + p[3], p[4], p[5]])
+
 
 def p_parse_num(p):
     'number : NUMBER'
@@ -157,7 +196,7 @@ def p_parse_minus_num(p):
 
 def p_parse_symbol(p):
     'sym : SYMBOL'
-    p[0] = f_id('\'' + p[1])
+    p[0] = f_id(['\'' + p[1]])
 
 
 def p_error(p):
@@ -175,3 +214,5 @@ while True:
         print("parse: bad syntax")
     except NotImplementedError:
         print("interp: not implemented")
+    except RuntimeError as rte:
+        print(rte)
