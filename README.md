@@ -1,9 +1,10 @@
 # plai
 #lang plai
 
-#License of PLY 3.9 (what this program uses)
+This program uses PLY 3.9 (http://www.dabeaz.com/ply/), and the license is below:
 
-PLY (Python Lex-Yacc)                   Version 3.9
+
+PLY (Python Lex-Yacc)                   Version 3.9
 
 Copyright (C) 2001-2016
 David M. Beazley (Dabeaz LLC)
