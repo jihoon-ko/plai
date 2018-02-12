@@ -111,10 +111,10 @@ class f_app(f):
             if fd.arg[0] == self.arg[0]:
                 newSub = {}
                 for k, v in kwargs.items(): newSub[k] = v
-                newSub['defrdSub'] = MtSub([])
-                return f_with([fd.arg[1],
-                               self.arg[1],
-                               fd.arg[2]]).interp(**newSub)
+                newSub['defrdSub'] = ASub([fd.arg[1],
+                                           self.arg[1].interp(**kwargs),
+                                           MtSub([])])
+                return fd.arg[2].interp(**newSub)
 
         raise RuntimeError("cannot find function")
 
