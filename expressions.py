@@ -1,4 +1,6 @@
 from defrdsub import *
+from values import *
+
 
 class f:
     def __init__(self, arg):
@@ -21,7 +23,7 @@ class f_num(f):
         self.name = "num"
 
     def interp(self, **kwargs):
-        return self.arg[0]
+        return numV([self.arg[0]])
 
     def subst(self, sym, val):
         return self
@@ -33,8 +35,12 @@ class f_add(f):
         self.name = "add"
 
     def interp(self, **kwargs):
-        return self.arg[0].interp(**kwargs)\
-               + self.arg[1].interp(**kwargs)
+        lhs = self.arg[0].interp(**kwargs)
+        rhs = self.arg[1].interp(**kwargs)
+        if isinstance(lhs, numV) and isinstance(rhs, numV):
+            return lhs + rhs
+        else:
+            raise RuntimeError("not a number!")
 
     def subst(self, sym, val):
         return f_add([self.arg[0].subst(sym, val),
@@ -47,8 +53,12 @@ class f_sub(f):
         self.name = "sub"
 
     def interp(self, **kwargs):
-        return self.arg[0].interp(**kwargs)\
-               - self.arg[1].interp(**kwargs)
+        lhs = self.arg[0].interp(**kwargs)
+        rhs = self.arg[1].interp(**kwargs)
+        if isinstance(lhs, numV) and isinstance(rhs, numV):
+            return lhs - rhs
+        else:
+            raise RuntimeError("not a number!")
 
     def subst(self, sym, val):
         return f_sub([self.arg[0].subst(sym, val),
@@ -107,16 +117,41 @@ class f_app(f):
         self.name = "app"
 
     def interp(self, **kwargs):
-        for fd in kwargs.get('fds', []):
-            if fd.arg[0] == self.arg[0]:
+        func = None
+        if isinstance(self.arg[0], f):
+            func = self.arg[0].interp(**kwargs)
+        else:
+            func = kwargs['defrdSub'].lookup(self.arg[0])
+        if func is not None:
+            if isinstance(func, closureV):
                 newSub = {}
                 for k, v in kwargs.items(): newSub[k] = v
-                newSub['defrdSub'] = ASub([fd.arg[1],
+                newSub['defrdSub'] = ASub([func.arg[0],
                                            self.arg[1].interp(**kwargs),
-                                           MtSub([])])
-                return fd.arg[2].interp(**newSub)
+                                           func.arg[2]])
+                return func.arg[1].interp(**newSub)
+            else:
+                raise RuntimeError("not a function!")
+        else:
+            for fd in kwargs.get('fds', []):
+                if fd.arg[0] == self.arg[0]:
+                    newSub = {}
+                    for k, v in kwargs.items(): newSub[k] = v
+                    newSub['defrdSub'] = ASub([fd.arg[1],
+                                               self.arg[1].interp(**kwargs),
+                                               MtSub([])])
+                    return fd.arg[2].interp(**newSub)
 
-        raise RuntimeError("cannot find function")
+        raise RuntimeError("cannot find function!")
 
     def subst(self, sym, val):
         return f_app([self.arg[0], self.arg[1].subst(sym, val)])
+
+
+class f_fun(f):
+    def __init__(self, arg):
+        super(f_fun, self).__init__(arg)
+        self.name = "fun"
+
+    def interp(self, **kwargs):
+        return closureV([self.arg[0], self.arg[1], kwargs['defrdSub']])

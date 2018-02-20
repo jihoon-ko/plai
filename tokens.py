@@ -18,6 +18,9 @@ reserved = {
 
         'mtSub': 'MTSUB',
         'aSub': 'ASUB',
+        'fun' : 'FUN',
+        'numV' : 'NUMV',
+        'closureV' : 'CLOSUREV'
     }
 
 # tokens
@@ -53,7 +56,7 @@ t_LPAREN = r'\('
 t_RPAREN = r'\)'
 
 # Ignored characters
-t_ignore = " \t\'"
+t_ignore = " \t\'\""
 
 
 def t_newline(t):

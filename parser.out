@@ -15,65 +15,76 @@ Rule 9     statement -> LBPAREN MINUS statement statement RBPAREN
 Rule 10    statement -> LPAREN SUB statement statement RPAREN
 Rule 11    statement -> number
 Rule 12    statement -> LPAREN NUM number RPAREN
-Rule 13    statement -> sym
-Rule 14    statement -> LPAREN ID sym RPAREN
-Rule 15    statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-Rule 16    statement -> LPAREN WITH SYMBOL statement statement RPAREN
-Rule 17    statement -> LBPAREN SYMBOL statement RBPAREN
-Rule 18    statement -> LPAREN APP SYMBOL statement RPAREN
-Rule 19    fdlist -> none
-Rule 20    fdlist -> EMPTY
-Rule 21    fdlist -> LPAREN LIST fds RPAREN
-Rule 22    fds -> fd
-Rule 23    fds -> fds fd
-Rule 24    fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
-Rule 25    fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN
-Rule 26    number -> NUMBER
-Rule 27    number -> MINUS NUMBER
-Rule 28    sym -> SYMBOL
+Rule 13    number -> NUMBER
+Rule 14    number -> MINUS NUMBER
+Rule 15    statement -> sym
+Rule 16    statement -> LPAREN ID sym RPAREN
+Rule 17    statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+Rule 18    statement -> LPAREN WITH SYMBOL statement statement RPAREN
+Rule 19    sym -> SYMBOL
+Rule 20    statement -> LBPAREN SYMBOL statement RBPAREN
+Rule 21    statement -> LPAREN APP SYMBOL statement RPAREN
+Rule 22    fdlist -> none
+Rule 23    fdlist -> EMPTY
+Rule 24    fdlist -> LPAREN LIST fds RPAREN
+Rule 25    fds -> fd
+Rule 26    fds -> fds fd
+Rule 27    fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
+Rule 28    fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN
 Rule 29    defrdSub -> none
 Rule 30    defrdSub -> LPAREN MTSUB RPAREN
 Rule 31    defrdSub -> LPAREN ASUB SYMBOL number defrdSub RPAREN
-Rule 32    none -> <empty>
+Rule 32    statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+Rule 33    statement -> LPAREN FUN SYMBOL statement RPAREN
+Rule 34    statement -> LBPAREN statement statement RBPAREN
+Rule 35    statement -> LPAREN APP statement statement RPAREN
+Rule 36    defrdSub -> LPAREN ASUB SYMBOL value defrdSub RPAREN
+Rule 37    value -> LPAREN NUMV number RPAREN
+Rule 38    value -> LPAREN CLOSUREV SYMBOL statement defrdSub RPAREN
+Rule 39    none -> <empty>
 
 Terminals, with rules where they appear
 
 ADD                  : 8
-APP                  : 18
-ASUB                 : 31
-DEFFUN               : 24
-EMPTY                : 20
-FUNDEF               : 25
-ID                   : 14
+APP                  : 21 35
+ASUB                 : 31 36
+CLOSUREV             : 38
+DEFFUN               : 27
+EMPTY                : 23
+FUN                  : 32 33
+FUNDEF               : 28
+ID                   : 16
 INTERP               : 1 3
-LBPAREN              : 7 9 15 15 17 24 24
-LIST                 : 21
-LPAREN               : 1 2 3 4 5 6 8 10 12 14 16 18 21 25 30 31
-MINUS                : 9 27
+LBPAREN              : 7 9 17 17 20 27 27 32 32 34
+LIST                 : 24
+LPAREN               : 1 2 3 4 5 6 8 10 12 16 18 21 24 28 30 31 33 35 36 37 38
+MINUS                : 9 14
 MTSUB                : 30
 NUM                  : 12
-NUMBER               : 26 27
+NUMBER               : 13 14
+NUMV                 : 37
 PARSE                : 5
 PLUS                 : 7
-RBPAREN              : 7 9 15 15 17 24 24
-RPAREN               : 1 2 3 4 5 6 8 10 12 14 16 18 21 25 30 31
+RBPAREN              : 7 9 17 17 20 27 27 32 32 34
+RPAREN               : 1 2 3 4 5 6 8 10 12 16 18 21 24 28 30 31 33 35 36 37 38
 RUN                  : 2 4
 SUB                  : 10
 SUBST                : 6
-SYMBOL               : 6 15 16 17 18 24 24 25 25 28 31
-WITH                 : 15 16
+SYMBOL               : 6 17 18 19 20 21 27 27 28 28 31 32 33 36 38
+WITH                 : 17 18
 error                : 
 
 Nonterminals, with rules where they appear
 
-defrdSub             : 1 2 3 4 31
-fd                   : 22 23
+defrdSub             : 1 2 3 4 31 36 38
+fd                   : 25 26
 fdlist               : 1 2
-fds                  : 21 23
-none                 : 19 29
-number               : 11 12 31
-statement            : 1 2 3 4 5 6 6 7 7 8 8 9 9 10 10 15 15 16 16 17 18 24 25 0
-sym                  : 13 14
+fds                  : 24 26
+none                 : 22 29
+number               : 11 12 31 37
+statement            : 1 2 3 4 5 6 6 7 7 8 8 9 9 10 10 17 17 18 18 20 21 27 28 32 33 34 34 35 35 38 0
+sym                  : 15 16
+value                : 36
 
 Parsing method: LALR
 
@@ -92,39 +103,34 @@ state 0
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 5
+    statement                      shift and go to state 1
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 1
 
-    (13) statement -> sym .
+    (0) S' -> statement .
 
-    RBPAREN         reduce using rule 13 (statement -> sym .)
-    LPAREN          reduce using rule 13 (statement -> sym .)
-    LBPAREN         reduce using rule 13 (statement -> sym .)
-    NUMBER          reduce using rule 13 (statement -> sym .)
-    MINUS           reduce using rule 13 (statement -> sym .)
-    SYMBOL          reduce using rule 13 (statement -> sym .)
-    RPAREN          reduce using rule 13 (statement -> sym .)
-    EMPTY           reduce using rule 13 (statement -> sym .)
-    $end            reduce using rule 13 (statement -> sym .)
 
 
 state 2
@@ -138,91 +144,137 @@ state 2
     (8) statement -> LPAREN . ADD statement statement RPAREN
     (10) statement -> LPAREN . SUB statement statement RPAREN
     (12) statement -> LPAREN . NUM number RPAREN
-    (14) statement -> LPAREN . ID sym RPAREN
-    (16) statement -> LPAREN . WITH SYMBOL statement statement RPAREN
-    (18) statement -> LPAREN . APP SYMBOL statement RPAREN
+    (16) statement -> LPAREN . ID sym RPAREN
+    (18) statement -> LPAREN . WITH SYMBOL statement statement RPAREN
+    (21) statement -> LPAREN . APP SYMBOL statement RPAREN
+    (33) statement -> LPAREN . FUN SYMBOL statement RPAREN
+    (35) statement -> LPAREN . APP statement statement RPAREN
 
     INTERP          shift and go to state 9
-    RUN             shift and go to state 16
-    PARSE           shift and go to state 15
-    SUBST           shift and go to state 11
+    RUN             shift and go to state 10
+    PARSE           shift and go to state 11
+    SUBST           shift and go to state 12
     ADD             shift and go to state 13
-    SUB             shift and go to state 12
-    NUM             shift and go to state 17
-    ID              shift and go to state 18
-    WITH            shift and go to state 14
-    APP             shift and go to state 10
+    SUB             shift and go to state 14
+    NUM             shift and go to state 15
+    ID              shift and go to state 16
+    WITH            shift and go to state 17
+    APP             shift and go to state 18
+    FUN             shift and go to state 19
 
 
 state 3
 
-    (26) number -> NUMBER .
+    (19) sym -> SYMBOL .
 
-    LPAREN          reduce using rule 26 (number -> NUMBER .)
-    RPAREN          reduce using rule 26 (number -> NUMBER .)
-    EMPTY           reduce using rule 26 (number -> NUMBER .)
-    LBPAREN         reduce using rule 26 (number -> NUMBER .)
-    NUMBER          reduce using rule 26 (number -> NUMBER .)
-    MINUS           reduce using rule 26 (number -> NUMBER .)
-    SYMBOL          reduce using rule 26 (number -> NUMBER .)
-    RBPAREN         reduce using rule 26 (number -> NUMBER .)
-    $end            reduce using rule 26 (number -> NUMBER .)
+    $end            reduce using rule 19 (sym -> SYMBOL .)
+    EMPTY           reduce using rule 19 (sym -> SYMBOL .)
+    LPAREN          reduce using rule 19 (sym -> SYMBOL .)
+    RPAREN          reduce using rule 19 (sym -> SYMBOL .)
+    SYMBOL          reduce using rule 19 (sym -> SYMBOL .)
+    LBPAREN         reduce using rule 19 (sym -> SYMBOL .)
+    NUMBER          reduce using rule 19 (sym -> SYMBOL .)
+    MINUS           reduce using rule 19 (sym -> SYMBOL .)
+    RBPAREN         reduce using rule 19 (sym -> SYMBOL .)
 
 
 state 4
 
     (7) statement -> LBPAREN . PLUS statement statement RBPAREN
     (9) statement -> LBPAREN . MINUS statement statement RBPAREN
-    (15) statement -> LBPAREN . WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (17) statement -> LBPAREN . SYMBOL statement RBPAREN
+    (17) statement -> LBPAREN . WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (20) statement -> LBPAREN . SYMBOL statement RBPAREN
+    (32) statement -> LBPAREN . FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (34) statement -> LBPAREN . statement statement RBPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
-    PLUS            shift and go to state 21
-    MINUS           shift and go to state 19
-    WITH            shift and go to state 22
-    SYMBOL          shift and go to state 20
+    PLUS            shift and go to state 20
+    MINUS           shift and go to state 22
+    WITH            shift and go to state 23
+    SYMBOL          shift and go to state 24
+    FUN             shift and go to state 25
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
 
+    statement                      shift and go to state 21
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 5
 
-    (0) S' -> statement .
+    (14) number -> MINUS . NUMBER
 
+    NUMBER          shift and go to state 26
 
 
 state 6
 
-    (28) sym -> SYMBOL .
-
-    SYMBOL          reduce using rule 28 (sym -> SYMBOL .)
-    LPAREN          reduce using rule 28 (sym -> SYMBOL .)
-    LBPAREN         reduce using rule 28 (sym -> SYMBOL .)
-    NUMBER          reduce using rule 28 (sym -> SYMBOL .)
-    MINUS           reduce using rule 28 (sym -> SYMBOL .)
-    RPAREN          reduce using rule 28 (sym -> SYMBOL .)
-    RBPAREN         reduce using rule 28 (sym -> SYMBOL .)
-    EMPTY           reduce using rule 28 (sym -> SYMBOL .)
-    $end            reduce using rule 28 (sym -> SYMBOL .)
-
-
-state 7
-
-    (27) number -> MINUS . NUMBER
-
-    NUMBER          shift and go to state 23
-
-
-state 8
-
     (11) statement -> number .
 
-    RBPAREN         reduce using rule 11 (statement -> number .)
+    $end            reduce using rule 11 (statement -> number .)
     LPAREN          reduce using rule 11 (statement -> number .)
     LBPAREN         reduce using rule 11 (statement -> number .)
     NUMBER          reduce using rule 11 (statement -> number .)
     MINUS           reduce using rule 11 (statement -> number .)
     SYMBOL          reduce using rule 11 (statement -> number .)
-    RPAREN          reduce using rule 11 (statement -> number .)
     EMPTY           reduce using rule 11 (statement -> number .)
-    $end            reduce using rule 11 (statement -> number .)
+    RPAREN          reduce using rule 11 (statement -> number .)
+    RBPAREN         reduce using rule 11 (statement -> number .)
+
+
+state 7
+
+    (15) statement -> sym .
+
+    $end            reduce using rule 15 (statement -> sym .)
+    LPAREN          reduce using rule 15 (statement -> sym .)
+    LBPAREN         reduce using rule 15 (statement -> sym .)
+    NUMBER          reduce using rule 15 (statement -> sym .)
+    MINUS           reduce using rule 15 (statement -> sym .)
+    SYMBOL          reduce using rule 15 (statement -> sym .)
+    EMPTY           reduce using rule 15 (statement -> sym .)
+    RPAREN          reduce using rule 15 (statement -> sym .)
+    RBPAREN         reduce using rule 15 (statement -> sym .)
+
+
+state 8
+
+    (13) number -> NUMBER .
+
+    $end            reduce using rule 13 (number -> NUMBER .)
+    LPAREN          reduce using rule 13 (number -> NUMBER .)
+    LBPAREN         reduce using rule 13 (number -> NUMBER .)
+    NUMBER          reduce using rule 13 (number -> NUMBER .)
+    MINUS           reduce using rule 13 (number -> NUMBER .)
+    SYMBOL          reduce using rule 13 (number -> NUMBER .)
+    EMPTY           reduce using rule 13 (number -> NUMBER .)
+    RPAREN          reduce using rule 13 (number -> NUMBER .)
+    RBPAREN         reduce using rule 13 (number -> NUMBER .)
 
 
 state 9
@@ -241,34 +293,110 @@ state 9
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 24
+    statement                      shift and go to state 27
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 10
 
-    (18) statement -> LPAREN APP . SYMBOL statement RPAREN
+    (2) statement -> LPAREN RUN . statement fdlist defrdSub RPAREN
+    (4) statement -> LPAREN RUN . statement defrdSub RPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
-    SYMBOL          shift and go to state 25
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
+    statement                      shift and go to state 28
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 11
+
+    (5) statement -> LPAREN PARSE . statement RPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
+
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
+
+    statement                      shift and go to state 29
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 12
 
     (6) statement -> LPAREN SUBST . statement SYMBOL statement RPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
@@ -283,60 +411,29 @@ state 11
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 26
-
-state 12
-
-    (10) statement -> LPAREN SUB . statement statement RPAREN
-    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
-    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
-    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
-    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
-    (5) statement -> . LPAREN PARSE statement RPAREN
-    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
-    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
-    (8) statement -> . LPAREN ADD statement statement RPAREN
-    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
-    (10) statement -> . LPAREN SUB statement statement RPAREN
-    (11) statement -> . number
-    (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
-
-    LPAREN          shift and go to state 2
-    LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
-
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 27
+    statement                      shift and go to state 30
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 13
 
@@ -353,195 +450,144 @@ state 13
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 28
+    statement                      shift and go to state 31
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 14
 
-    (16) statement -> LPAREN WITH . SYMBOL statement statement RPAREN
+    (10) statement -> LPAREN SUB . statement statement RPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
-    SYMBOL          shift and go to state 29
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
+    statement                      shift and go to state 32
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 15
 
-    (5) statement -> LPAREN PARSE . statement RPAREN
-    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
-    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
-    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
-    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
-    (5) statement -> . LPAREN PARSE statement RPAREN
-    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
-    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
-    (8) statement -> . LPAREN ADD statement statement RPAREN
-    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
-    (10) statement -> . LPAREN SUB statement statement RPAREN
-    (11) statement -> . number
-    (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (12) statement -> LPAREN NUM . number RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
 
-    LPAREN          shift and go to state 2
-    LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 30
+    number                         shift and go to state 33
 
 state 16
 
-    (2) statement -> LPAREN RUN . statement fdlist defrdSub RPAREN
-    (4) statement -> LPAREN RUN . statement defrdSub RPAREN
-    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
-    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
-    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
-    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
-    (5) statement -> . LPAREN PARSE statement RPAREN
-    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
-    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
-    (8) statement -> . LPAREN ADD statement statement RPAREN
-    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
-    (10) statement -> . LPAREN SUB statement statement RPAREN
-    (11) statement -> . number
-    (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (16) statement -> LPAREN ID . sym RPAREN
+    (19) sym -> . SYMBOL
 
-    LPAREN          shift and go to state 2
-    LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 31
+    sym                            shift and go to state 34
 
 state 17
 
-    (12) statement -> LPAREN NUM . number RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
+    (18) statement -> LPAREN WITH . SYMBOL statement statement RPAREN
 
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
+    SYMBOL          shift and go to state 35
 
-    number                         shift and go to state 32
 
 state 18
 
-    (14) statement -> LPAREN ID . sym RPAREN
-    (28) sym -> . SYMBOL
+    (21) statement -> LPAREN APP . SYMBOL statement RPAREN
+    (35) statement -> LPAREN APP . statement statement RPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
-    SYMBOL          shift and go to state 6
+    SYMBOL          shift and go to state 36
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
 
-    sym                            shift and go to state 33
+    statement                      shift and go to state 37
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 19
 
-    (9) statement -> LBPAREN MINUS . statement statement RBPAREN
-    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
-    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
-    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
-    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
-    (5) statement -> . LPAREN PARSE statement RPAREN
-    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
-    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
-    (8) statement -> . LPAREN ADD statement statement RPAREN
-    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
-    (10) statement -> . LPAREN SUB statement statement RPAREN
-    (11) statement -> . number
-    (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (33) statement -> LPAREN FUN . SYMBOL statement RPAREN
 
-    LPAREN          shift and go to state 2
-    LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    SYMBOL          shift and go to state 38
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 34
 
 state 20
-
-    (17) statement -> LBPAREN SYMBOL . statement RBPAREN
-    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
-    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
-    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
-    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
-    (5) statement -> . LPAREN PARSE statement RPAREN
-    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
-    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
-    (8) statement -> . LPAREN ADD statement statement RPAREN
-    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
-    (10) statement -> . LPAREN SUB statement statement RPAREN
-    (11) statement -> . number
-    (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
-
-    LPAREN          shift and go to state 2
-    LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
-
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 35
-
-state 21
 
     (7) statement -> LBPAREN PLUS . statement statement RBPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
@@ -556,74 +602,120 @@ state 21
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 36
+    statement                      shift and go to state 39
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 21
+
+    (34) statement -> LBPAREN statement . statement RBPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
+
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
+
+    statement                      shift and go to state 40
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 22
 
-    (15) statement -> LBPAREN WITH . LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (9) statement -> LBPAREN MINUS . statement statement RBPAREN
+    (14) number -> MINUS . NUMBER
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
-    LBPAREN         shift and go to state 37
+    NUMBER          shift and go to state 42
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
+    statement                      shift and go to state 41
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 23
 
-    (27) number -> MINUS NUMBER .
+    (17) statement -> LBPAREN WITH . LBPAREN SYMBOL statement RBPAREN statement RBPAREN
 
-    LPAREN          reduce using rule 27 (number -> MINUS NUMBER .)
-    RPAREN          reduce using rule 27 (number -> MINUS NUMBER .)
-    EMPTY           reduce using rule 27 (number -> MINUS NUMBER .)
-    LBPAREN         reduce using rule 27 (number -> MINUS NUMBER .)
-    NUMBER          reduce using rule 27 (number -> MINUS NUMBER .)
-    MINUS           reduce using rule 27 (number -> MINUS NUMBER .)
-    SYMBOL          reduce using rule 27 (number -> MINUS NUMBER .)
-    RBPAREN         reduce using rule 27 (number -> MINUS NUMBER .)
-    $end            reduce using rule 27 (number -> MINUS NUMBER .)
+    LBPAREN         shift and go to state 43
 
 
 state 24
 
-    (1) statement -> LPAREN INTERP statement . fdlist defrdSub RPAREN
-    (3) statement -> LPAREN INTERP statement . defrdSub RPAREN
-    (19) fdlist -> . none
-    (20) fdlist -> . EMPTY
-    (21) fdlist -> . LPAREN LIST fds RPAREN
-    (29) defrdSub -> . none
-    (30) defrdSub -> . LPAREN MTSUB RPAREN
-    (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
-    (32) none -> .
-
-  ! shift/reduce conflict for LPAREN resolved as shift
-    EMPTY           shift and go to state 40
-    LPAREN          shift and go to state 41
-    RPAREN          reduce using rule 32 (none -> .)
-
-  ! LPAREN          [ reduce using rule 32 (none -> .) ]
-
-    fdlist                         shift and go to state 38
-    defrdSub                       shift and go to state 42
-    none                           shift and go to state 39
-
-state 25
-
-    (18) statement -> LPAREN APP SYMBOL . statement RPAREN
+    (20) statement -> LBPAREN SYMBOL . statement RBPAREN
+    (19) sym -> SYMBOL .
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
     (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
     (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
@@ -636,69 +728,126 @@ state 25
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! shift/reduce conflict for LBPAREN resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for SYMBOL resolved as shift
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 43
+  ! LPAREN          [ reduce using rule 19 (sym -> SYMBOL .) ]
+  ! LBPAREN         [ reduce using rule 19 (sym -> SYMBOL .) ]
+  ! NUMBER          [ reduce using rule 19 (sym -> SYMBOL .) ]
+  ! MINUS           [ reduce using rule 19 (sym -> SYMBOL .) ]
+  ! SYMBOL          [ reduce using rule 19 (sym -> SYMBOL .) ]
+
+    statement                      shift and go to state 44
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 25
+
+    (32) statement -> LBPAREN FUN . LBPAREN SYMBOL RBPAREN statement RBPAREN
+
+    LBPAREN         shift and go to state 45
+
 
 state 26
 
-    (6) statement -> LPAREN SUBST statement . SYMBOL statement RPAREN
+    (14) number -> MINUS NUMBER .
 
-    SYMBOL          shift and go to state 44
+    $end            reduce using rule 14 (number -> MINUS NUMBER .)
+    EMPTY           reduce using rule 14 (number -> MINUS NUMBER .)
+    LPAREN          reduce using rule 14 (number -> MINUS NUMBER .)
+    RPAREN          reduce using rule 14 (number -> MINUS NUMBER .)
+    SYMBOL          reduce using rule 14 (number -> MINUS NUMBER .)
+    LBPAREN         reduce using rule 14 (number -> MINUS NUMBER .)
+    NUMBER          reduce using rule 14 (number -> MINUS NUMBER .)
+    MINUS           reduce using rule 14 (number -> MINUS NUMBER .)
+    RBPAREN         reduce using rule 14 (number -> MINUS NUMBER .)
 
 
 state 27
 
-    (10) statement -> LPAREN SUB statement . statement RPAREN
-    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
-    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
-    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
-    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
-    (5) statement -> . LPAREN PARSE statement RPAREN
-    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
-    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
-    (8) statement -> . LPAREN ADD statement statement RPAREN
-    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
-    (10) statement -> . LPAREN SUB statement statement RPAREN
-    (11) statement -> . number
-    (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (1) statement -> LPAREN INTERP statement . fdlist defrdSub RPAREN
+    (3) statement -> LPAREN INTERP statement . defrdSub RPAREN
+    (22) fdlist -> . none
+    (23) fdlist -> . EMPTY
+    (24) fdlist -> . LPAREN LIST fds RPAREN
+    (29) defrdSub -> . none
+    (30) defrdSub -> . LPAREN MTSUB RPAREN
+    (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
+    (36) defrdSub -> . LPAREN ASUB SYMBOL value defrdSub RPAREN
+    (39) none -> .
 
-    LPAREN          shift and go to state 2
-    LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+  ! shift/reduce conflict for LPAREN resolved as shift
+    EMPTY           shift and go to state 50
+    LPAREN          shift and go to state 46
+    RPAREN          reduce using rule 39 (none -> .)
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 45
+  ! LPAREN          [ reduce using rule 39 (none -> .) ]
+
+    fdlist                         shift and go to state 47
+    defrdSub                       shift and go to state 48
+    none                           shift and go to state 49
 
 state 28
+
+    (2) statement -> LPAREN RUN statement . fdlist defrdSub RPAREN
+    (4) statement -> LPAREN RUN statement . defrdSub RPAREN
+    (22) fdlist -> . none
+    (23) fdlist -> . EMPTY
+    (24) fdlist -> . LPAREN LIST fds RPAREN
+    (29) defrdSub -> . none
+    (30) defrdSub -> . LPAREN MTSUB RPAREN
+    (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
+    (36) defrdSub -> . LPAREN ASUB SYMBOL value defrdSub RPAREN
+    (39) none -> .
+
+  ! shift/reduce conflict for LPAREN resolved as shift
+    EMPTY           shift and go to state 50
+    LPAREN          shift and go to state 46
+    RPAREN          reduce using rule 39 (none -> .)
+
+  ! LPAREN          [ reduce using rule 39 (none -> .) ]
+
+    fdlist                         shift and go to state 51
+    defrdSub                       shift and go to state 52
+    none                           shift and go to state 49
+
+state 29
+
+    (5) statement -> LPAREN PARSE statement . RPAREN
+
+    RPAREN          shift and go to state 53
+
+
+state 30
+
+    (6) statement -> LPAREN SUBST statement . SYMBOL statement RPAREN
+
+    SYMBOL          shift and go to state 54
+
+
+state 31
 
     (8) statement -> LPAREN ADD statement . statement RPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
@@ -713,29 +862,33 @@ state 28
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 46
+    statement                      shift and go to state 55
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
-state 29
+state 32
 
-    (16) statement -> LPAREN WITH SYMBOL . statement statement RPAREN
+    (10) statement -> LPAREN SUB statement . statement RPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
     (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
     (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
@@ -748,73 +901,47 @@ state 29
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 47
-
-state 30
-
-    (5) statement -> LPAREN PARSE statement . RPAREN
-
-    RPAREN          shift and go to state 48
-
-
-state 31
-
-    (2) statement -> LPAREN RUN statement . fdlist defrdSub RPAREN
-    (4) statement -> LPAREN RUN statement . defrdSub RPAREN
-    (19) fdlist -> . none
-    (20) fdlist -> . EMPTY
-    (21) fdlist -> . LPAREN LIST fds RPAREN
-    (29) defrdSub -> . none
-    (30) defrdSub -> . LPAREN MTSUB RPAREN
-    (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
-    (32) none -> .
-
-  ! shift/reduce conflict for LPAREN resolved as shift
-    EMPTY           shift and go to state 40
-    LPAREN          shift and go to state 41
-    RPAREN          reduce using rule 32 (none -> .)
-
-  ! LPAREN          [ reduce using rule 32 (none -> .) ]
-
-    fdlist                         shift and go to state 49
-    defrdSub                       shift and go to state 50
-    none                           shift and go to state 39
-
-state 32
-
-    (12) statement -> LPAREN NUM number . RPAREN
-
-    RPAREN          shift and go to state 51
-
+    statement                      shift and go to state 56
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 33
 
-    (14) statement -> LPAREN ID sym . RPAREN
+    (12) statement -> LPAREN NUM number . RPAREN
 
-    RPAREN          shift and go to state 52
+    RPAREN          shift and go to state 57
 
 
 state 34
 
-    (9) statement -> LBPAREN MINUS statement . statement RBPAREN
+    (16) statement -> LPAREN ID sym . RPAREN
+
+    RPAREN          shift and go to state 58
+
+
+state 35
+
+    (18) statement -> LPAREN WITH SYMBOL . statement statement RPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
     (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
     (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
@@ -827,34 +954,160 @@ state 34
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 53
-
-state 35
-
-    (17) statement -> LBPAREN SYMBOL statement . RBPAREN
-
-    RBPAREN         shift and go to state 54
-
+    statement                      shift and go to state 59
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
 state 36
+
+    (21) statement -> LPAREN APP SYMBOL . statement RPAREN
+    (19) sym -> SYMBOL .
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
+
+  ! shift/reduce conflict for LPAREN resolved as shift
+  ! shift/reduce conflict for LBPAREN resolved as shift
+  ! shift/reduce conflict for NUMBER resolved as shift
+  ! shift/reduce conflict for MINUS resolved as shift
+  ! shift/reduce conflict for SYMBOL resolved as shift
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
+
+  ! LPAREN          [ reduce using rule 19 (sym -> SYMBOL .) ]
+  ! LBPAREN         [ reduce using rule 19 (sym -> SYMBOL .) ]
+  ! NUMBER          [ reduce using rule 19 (sym -> SYMBOL .) ]
+  ! MINUS           [ reduce using rule 19 (sym -> SYMBOL .) ]
+  ! SYMBOL          [ reduce using rule 19 (sym -> SYMBOL .) ]
+
+    statement                      shift and go to state 60
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 37
+
+    (35) statement -> LPAREN APP statement . statement RPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
+
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
+
+    statement                      shift and go to state 61
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 38
+
+    (33) statement -> LPAREN FUN SYMBOL . statement RPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
+
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
+
+    statement                      shift and go to state 62
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 39
 
     (7) statement -> LBPAREN PLUS statement . statement RBPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
@@ -869,93 +1122,212 @@ state 36
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 55
+    statement                      shift and go to state 63
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
-state 37
+state 40
 
-    (15) statement -> LBPAREN WITH LBPAREN . SYMBOL statement RBPAREN statement RBPAREN
+    (34) statement -> LBPAREN statement statement . RBPAREN
 
-    SYMBOL          shift and go to state 56
+    RBPAREN         shift and go to state 64
 
 
-state 38
+state 41
+
+    (9) statement -> LBPAREN MINUS statement . statement RBPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
+
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
+
+    statement                      shift and go to state 65
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 42
+
+    (14) number -> MINUS NUMBER .
+    (13) number -> NUMBER .
+
+  ! reduce/reduce conflict for LPAREN resolved using rule 13 (number -> NUMBER .)
+  ! reduce/reduce conflict for LBPAREN resolved using rule 13 (number -> NUMBER .)
+  ! reduce/reduce conflict for NUMBER resolved using rule 13 (number -> NUMBER .)
+  ! reduce/reduce conflict for MINUS resolved using rule 13 (number -> NUMBER .)
+  ! reduce/reduce conflict for SYMBOL resolved using rule 13 (number -> NUMBER .)
+    LPAREN          reduce using rule 13 (number -> NUMBER .)
+    LBPAREN         reduce using rule 13 (number -> NUMBER .)
+    NUMBER          reduce using rule 13 (number -> NUMBER .)
+    MINUS           reduce using rule 13 (number -> NUMBER .)
+    SYMBOL          reduce using rule 13 (number -> NUMBER .)
+
+  ! LPAREN          [ reduce using rule 14 (number -> MINUS NUMBER .) ]
+  ! LBPAREN         [ reduce using rule 14 (number -> MINUS NUMBER .) ]
+  ! NUMBER          [ reduce using rule 14 (number -> MINUS NUMBER .) ]
+  ! MINUS           [ reduce using rule 14 (number -> MINUS NUMBER .) ]
+  ! SYMBOL          [ reduce using rule 14 (number -> MINUS NUMBER .) ]
+
+
+state 43
+
+    (17) statement -> LBPAREN WITH LBPAREN . SYMBOL statement RBPAREN statement RBPAREN
+
+    SYMBOL          shift and go to state 66
+
+
+state 44
+
+    (20) statement -> LBPAREN SYMBOL statement . RBPAREN
+
+    RBPAREN         shift and go to state 67
+
+
+state 45
+
+    (32) statement -> LBPAREN FUN LBPAREN . SYMBOL RBPAREN statement RBPAREN
+
+    SYMBOL          shift and go to state 68
+
+
+state 46
+
+    (24) fdlist -> LPAREN . LIST fds RPAREN
+    (30) defrdSub -> LPAREN . MTSUB RPAREN
+    (31) defrdSub -> LPAREN . ASUB SYMBOL number defrdSub RPAREN
+    (36) defrdSub -> LPAREN . ASUB SYMBOL value defrdSub RPAREN
+
+    LIST            shift and go to state 69
+    MTSUB           shift and go to state 70
+    ASUB            shift and go to state 71
+
+
+state 47
 
     (1) statement -> LPAREN INTERP statement fdlist . defrdSub RPAREN
     (29) defrdSub -> . none
     (30) defrdSub -> . LPAREN MTSUB RPAREN
     (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
-    (32) none -> .
+    (36) defrdSub -> . LPAREN ASUB SYMBOL value defrdSub RPAREN
+    (39) none -> .
 
-    LPAREN          shift and go to state 58
-    RPAREN          reduce using rule 32 (none -> .)
+    LPAREN          shift and go to state 72
+    RPAREN          reduce using rule 39 (none -> .)
 
-    none                           shift and go to state 59
-    defrdSub                       shift and go to state 57
+    defrdSub                       shift and go to state 73
+    none                           shift and go to state 74
 
-state 39
+state 48
 
-    (19) fdlist -> none .
+    (3) statement -> LPAREN INTERP statement defrdSub . RPAREN
+
+    RPAREN          shift and go to state 75
+
+
+state 49
+
+    (22) fdlist -> none .
     (29) defrdSub -> none .
 
-  ! reduce/reduce conflict for RPAREN resolved using rule 19 (fdlist -> none .)
-    LPAREN          reduce using rule 19 (fdlist -> none .)
-    RPAREN          reduce using rule 19 (fdlist -> none .)
+  ! reduce/reduce conflict for RPAREN resolved using rule 22 (fdlist -> none .)
+    LPAREN          reduce using rule 22 (fdlist -> none .)
+    RPAREN          reduce using rule 22 (fdlist -> none .)
 
   ! RPAREN          [ reduce using rule 29 (defrdSub -> none .) ]
 
 
-state 40
+state 50
 
-    (20) fdlist -> EMPTY .
+    (23) fdlist -> EMPTY .
 
-    LPAREN          reduce using rule 20 (fdlist -> EMPTY .)
-    RPAREN          reduce using rule 20 (fdlist -> EMPTY .)
-
-
-state 41
-
-    (21) fdlist -> LPAREN . LIST fds RPAREN
-    (30) defrdSub -> LPAREN . MTSUB RPAREN
-    (31) defrdSub -> LPAREN . ASUB SYMBOL number defrdSub RPAREN
-
-    LIST            shift and go to state 60
-    MTSUB           shift and go to state 62
-    ASUB            shift and go to state 61
+    LPAREN          reduce using rule 23 (fdlist -> EMPTY .)
+    RPAREN          reduce using rule 23 (fdlist -> EMPTY .)
 
 
-state 42
+state 51
 
-    (3) statement -> LPAREN INTERP statement defrdSub . RPAREN
+    (2) statement -> LPAREN RUN statement fdlist . defrdSub RPAREN
+    (29) defrdSub -> . none
+    (30) defrdSub -> . LPAREN MTSUB RPAREN
+    (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
+    (36) defrdSub -> . LPAREN ASUB SYMBOL value defrdSub RPAREN
+    (39) none -> .
 
-    RPAREN          shift and go to state 63
+    LPAREN          shift and go to state 72
+    RPAREN          reduce using rule 39 (none -> .)
+
+    defrdSub                       shift and go to state 76
+    none                           shift and go to state 74
+
+state 52
+
+    (4) statement -> LPAREN RUN statement defrdSub . RPAREN
+
+    RPAREN          shift and go to state 77
 
 
-state 43
+state 53
 
-    (18) statement -> LPAREN APP SYMBOL statement . RPAREN
+    (5) statement -> LPAREN PARSE statement RPAREN .
 
-    RPAREN          shift and go to state 64
+    $end            reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
+    LPAREN          reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
+    LBPAREN         reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
+    NUMBER          reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
+    MINUS           reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
+    SYMBOL          reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
+    EMPTY           reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
+    RPAREN          reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
+    RBPAREN         reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
 
 
-state 44
+state 54
 
     (6) statement -> LPAREN SUBST statement SYMBOL . statement RPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
@@ -970,173 +1342,77 @@ state 44
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 65
+    statement                      shift and go to state 78
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
-state 45
-
-    (10) statement -> LPAREN SUB statement statement . RPAREN
-
-    RPAREN          shift and go to state 66
-
-
-state 46
+state 55
 
     (8) statement -> LPAREN ADD statement statement . RPAREN
 
-    RPAREN          shift and go to state 67
+    RPAREN          shift and go to state 79
 
 
-state 47
+state 56
 
-    (16) statement -> LPAREN WITH SYMBOL statement . statement RPAREN
-    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
-    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
-    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
-    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
-    (5) statement -> . LPAREN PARSE statement RPAREN
-    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
-    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
-    (8) statement -> . LPAREN ADD statement statement RPAREN
-    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
-    (10) statement -> . LPAREN SUB statement statement RPAREN
-    (11) statement -> . number
-    (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (10) statement -> LPAREN SUB statement statement . RPAREN
 
-    LPAREN          shift and go to state 2
-    LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
-
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 68
-
-state 48
-
-    (5) statement -> LPAREN PARSE statement RPAREN .
-
-    RBPAREN         reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
-    LPAREN          reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
-    LBPAREN         reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
-    NUMBER          reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
-    MINUS           reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
-    SYMBOL          reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
-    RPAREN          reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
-    EMPTY           reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
-    $end            reduce using rule 5 (statement -> LPAREN PARSE statement RPAREN .)
+    RPAREN          shift and go to state 80
 
 
-state 49
-
-    (2) statement -> LPAREN RUN statement fdlist . defrdSub RPAREN
-    (29) defrdSub -> . none
-    (30) defrdSub -> . LPAREN MTSUB RPAREN
-    (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
-    (32) none -> .
-
-    LPAREN          shift and go to state 58
-    RPAREN          reduce using rule 32 (none -> .)
-
-    none                           shift and go to state 59
-    defrdSub                       shift and go to state 69
-
-state 50
-
-    (4) statement -> LPAREN RUN statement defrdSub . RPAREN
-
-    RPAREN          shift and go to state 70
-
-
-state 51
+state 57
 
     (12) statement -> LPAREN NUM number RPAREN .
 
-    RBPAREN         reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
+    $end            reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
     LPAREN          reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
     LBPAREN         reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
     NUMBER          reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
     MINUS           reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
     SYMBOL          reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
-    RPAREN          reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
     EMPTY           reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
-    $end            reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
+    RPAREN          reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
+    RBPAREN         reduce using rule 12 (statement -> LPAREN NUM number RPAREN .)
 
 
-state 52
+state 58
 
-    (14) statement -> LPAREN ID sym RPAREN .
+    (16) statement -> LPAREN ID sym RPAREN .
 
-    RBPAREN         reduce using rule 14 (statement -> LPAREN ID sym RPAREN .)
-    LPAREN          reduce using rule 14 (statement -> LPAREN ID sym RPAREN .)
-    LBPAREN         reduce using rule 14 (statement -> LPAREN ID sym RPAREN .)
-    NUMBER          reduce using rule 14 (statement -> LPAREN ID sym RPAREN .)
-    MINUS           reduce using rule 14 (statement -> LPAREN ID sym RPAREN .)
-    SYMBOL          reduce using rule 14 (statement -> LPAREN ID sym RPAREN .)
-    RPAREN          reduce using rule 14 (statement -> LPAREN ID sym RPAREN .)
-    EMPTY           reduce using rule 14 (statement -> LPAREN ID sym RPAREN .)
-    $end            reduce using rule 14 (statement -> LPAREN ID sym RPAREN .)
-
-
-state 53
-
-    (9) statement -> LBPAREN MINUS statement statement . RBPAREN
-
-    RBPAREN         shift and go to state 71
+    $end            reduce using rule 16 (statement -> LPAREN ID sym RPAREN .)
+    LPAREN          reduce using rule 16 (statement -> LPAREN ID sym RPAREN .)
+    LBPAREN         reduce using rule 16 (statement -> LPAREN ID sym RPAREN .)
+    NUMBER          reduce using rule 16 (statement -> LPAREN ID sym RPAREN .)
+    MINUS           reduce using rule 16 (statement -> LPAREN ID sym RPAREN .)
+    SYMBOL          reduce using rule 16 (statement -> LPAREN ID sym RPAREN .)
+    EMPTY           reduce using rule 16 (statement -> LPAREN ID sym RPAREN .)
+    RPAREN          reduce using rule 16 (statement -> LPAREN ID sym RPAREN .)
+    RBPAREN         reduce using rule 16 (statement -> LPAREN ID sym RPAREN .)
 
 
-state 54
+state 59
 
-    (17) statement -> LBPAREN SYMBOL statement RBPAREN .
-
-    RBPAREN         reduce using rule 17 (statement -> LBPAREN SYMBOL statement RBPAREN .)
-    LPAREN          reduce using rule 17 (statement -> LBPAREN SYMBOL statement RBPAREN .)
-    LBPAREN         reduce using rule 17 (statement -> LBPAREN SYMBOL statement RBPAREN .)
-    NUMBER          reduce using rule 17 (statement -> LBPAREN SYMBOL statement RBPAREN .)
-    MINUS           reduce using rule 17 (statement -> LBPAREN SYMBOL statement RBPAREN .)
-    SYMBOL          reduce using rule 17 (statement -> LBPAREN SYMBOL statement RBPAREN .)
-    RPAREN          reduce using rule 17 (statement -> LBPAREN SYMBOL statement RBPAREN .)
-    EMPTY           reduce using rule 17 (statement -> LBPAREN SYMBOL statement RBPAREN .)
-    $end            reduce using rule 17 (statement -> LBPAREN SYMBOL statement RBPAREN .)
-
-
-state 55
-
-    (7) statement -> LBPAREN PLUS statement statement . RBPAREN
-
-    RBPAREN         shift and go to state 72
-
-
-state 56
-
-    (15) statement -> LBPAREN WITH LBPAREN SYMBOL . statement RBPAREN statement RBPAREN
+    (18) statement -> LPAREN WITH SYMBOL statement . statement RPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
     (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
     (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
@@ -1149,327 +1425,518 @@ state 56
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 73
+    statement                      shift and go to state 81
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
-state 57
+state 60
 
-    (1) statement -> LPAREN INTERP statement fdlist defrdSub . RPAREN
+    (21) statement -> LPAREN APP SYMBOL statement . RPAREN
 
-    RPAREN          shift and go to state 74
+    RPAREN          shift and go to state 82
 
 
-state 58
+state 61
+
+    (35) statement -> LPAREN APP statement statement . RPAREN
+
+    RPAREN          shift and go to state 83
+
+
+state 62
+
+    (33) statement -> LPAREN FUN SYMBOL statement . RPAREN
+
+    RPAREN          shift and go to state 84
+
+
+state 63
+
+    (7) statement -> LBPAREN PLUS statement statement . RBPAREN
+
+    RBPAREN         shift and go to state 85
+
+
+state 64
+
+    (34) statement -> LBPAREN statement statement RBPAREN .
+
+    $end            reduce using rule 34 (statement -> LBPAREN statement statement RBPAREN .)
+    LPAREN          reduce using rule 34 (statement -> LBPAREN statement statement RBPAREN .)
+    LBPAREN         reduce using rule 34 (statement -> LBPAREN statement statement RBPAREN .)
+    NUMBER          reduce using rule 34 (statement -> LBPAREN statement statement RBPAREN .)
+    MINUS           reduce using rule 34 (statement -> LBPAREN statement statement RBPAREN .)
+    SYMBOL          reduce using rule 34 (statement -> LBPAREN statement statement RBPAREN .)
+    EMPTY           reduce using rule 34 (statement -> LBPAREN statement statement RBPAREN .)
+    RPAREN          reduce using rule 34 (statement -> LBPAREN statement statement RBPAREN .)
+    RBPAREN         reduce using rule 34 (statement -> LBPAREN statement statement RBPAREN .)
+
+
+state 65
+
+    (9) statement -> LBPAREN MINUS statement statement . RBPAREN
+
+    RBPAREN         shift and go to state 86
+
+
+state 66
+
+    (17) statement -> LBPAREN WITH LBPAREN SYMBOL . statement RBPAREN statement RBPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
+
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
+
+    statement                      shift and go to state 87
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 67
+
+    (20) statement -> LBPAREN SYMBOL statement RBPAREN .
+
+    $end            reduce using rule 20 (statement -> LBPAREN SYMBOL statement RBPAREN .)
+    LPAREN          reduce using rule 20 (statement -> LBPAREN SYMBOL statement RBPAREN .)
+    LBPAREN         reduce using rule 20 (statement -> LBPAREN SYMBOL statement RBPAREN .)
+    NUMBER          reduce using rule 20 (statement -> LBPAREN SYMBOL statement RBPAREN .)
+    MINUS           reduce using rule 20 (statement -> LBPAREN SYMBOL statement RBPAREN .)
+    SYMBOL          reduce using rule 20 (statement -> LBPAREN SYMBOL statement RBPAREN .)
+    EMPTY           reduce using rule 20 (statement -> LBPAREN SYMBOL statement RBPAREN .)
+    RPAREN          reduce using rule 20 (statement -> LBPAREN SYMBOL statement RBPAREN .)
+    RBPAREN         reduce using rule 20 (statement -> LBPAREN SYMBOL statement RBPAREN .)
+
+
+state 68
+
+    (32) statement -> LBPAREN FUN LBPAREN SYMBOL . RBPAREN statement RBPAREN
+
+    RBPAREN         shift and go to state 88
+
+
+state 69
+
+    (24) fdlist -> LPAREN LIST . fds RPAREN
+    (25) fds -> . fd
+    (26) fds -> . fds fd
+    (27) fd -> . LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
+    (28) fd -> . LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN
+
+    LBPAREN         shift and go to state 92
+    LPAREN          shift and go to state 89
+
+    fds                            shift and go to state 90
+    fd                             shift and go to state 91
+
+state 70
+
+    (30) defrdSub -> LPAREN MTSUB . RPAREN
+
+    RPAREN          shift and go to state 93
+
+
+state 71
+
+    (31) defrdSub -> LPAREN ASUB . SYMBOL number defrdSub RPAREN
+    (36) defrdSub -> LPAREN ASUB . SYMBOL value defrdSub RPAREN
+
+    SYMBOL          shift and go to state 94
+
+
+state 72
 
     (30) defrdSub -> LPAREN . MTSUB RPAREN
     (31) defrdSub -> LPAREN . ASUB SYMBOL number defrdSub RPAREN
+    (36) defrdSub -> LPAREN . ASUB SYMBOL value defrdSub RPAREN
 
-    MTSUB           shift and go to state 62
-    ASUB            shift and go to state 61
+    MTSUB           shift and go to state 70
+    ASUB            shift and go to state 71
 
 
-state 59
+state 73
+
+    (1) statement -> LPAREN INTERP statement fdlist defrdSub . RPAREN
+
+    RPAREN          shift and go to state 95
+
+
+state 74
 
     (29) defrdSub -> none .
 
     RPAREN          reduce using rule 29 (defrdSub -> none .)
 
 
-state 60
-
-    (21) fdlist -> LPAREN LIST . fds RPAREN
-    (22) fds -> . fd
-    (23) fds -> . fds fd
-    (24) fd -> . LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
-    (25) fd -> . LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN
-
-    LBPAREN         shift and go to state 75
-    LPAREN          shift and go to state 78
-
-    fds                            shift and go to state 76
-    fd                             shift and go to state 77
-
-state 61
-
-    (31) defrdSub -> LPAREN ASUB . SYMBOL number defrdSub RPAREN
-
-    SYMBOL          shift and go to state 79
-
-
-state 62
-
-    (30) defrdSub -> LPAREN MTSUB . RPAREN
-
-    RPAREN          shift and go to state 80
-
-
-state 63
+state 75
 
     (3) statement -> LPAREN INTERP statement defrdSub RPAREN .
 
-    RBPAREN         reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
+    $end            reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
     LPAREN          reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
     LBPAREN         reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
     NUMBER          reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
     MINUS           reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
     SYMBOL          reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
-    RPAREN          reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
     EMPTY           reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
-    $end            reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
+    RPAREN          reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
+    RBPAREN         reduce using rule 3 (statement -> LPAREN INTERP statement defrdSub RPAREN .)
 
 
-state 64
-
-    (18) statement -> LPAREN APP SYMBOL statement RPAREN .
-
-    RBPAREN         reduce using rule 18 (statement -> LPAREN APP SYMBOL statement RPAREN .)
-    LPAREN          reduce using rule 18 (statement -> LPAREN APP SYMBOL statement RPAREN .)
-    LBPAREN         reduce using rule 18 (statement -> LPAREN APP SYMBOL statement RPAREN .)
-    NUMBER          reduce using rule 18 (statement -> LPAREN APP SYMBOL statement RPAREN .)
-    MINUS           reduce using rule 18 (statement -> LPAREN APP SYMBOL statement RPAREN .)
-    SYMBOL          reduce using rule 18 (statement -> LPAREN APP SYMBOL statement RPAREN .)
-    RPAREN          reduce using rule 18 (statement -> LPAREN APP SYMBOL statement RPAREN .)
-    EMPTY           reduce using rule 18 (statement -> LPAREN APP SYMBOL statement RPAREN .)
-    $end            reduce using rule 18 (statement -> LPAREN APP SYMBOL statement RPAREN .)
-
-
-state 65
-
-    (6) statement -> LPAREN SUBST statement SYMBOL statement . RPAREN
-
-    RPAREN          shift and go to state 81
-
-
-state 66
-
-    (10) statement -> LPAREN SUB statement statement RPAREN .
-
-    RBPAREN         reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
-    LPAREN          reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
-    LBPAREN         reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
-    NUMBER          reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
-    MINUS           reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
-    SYMBOL          reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
-    RPAREN          reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
-    EMPTY           reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
-    $end            reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
-
-
-state 67
-
-    (8) statement -> LPAREN ADD statement statement RPAREN .
-
-    RBPAREN         reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
-    LPAREN          reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
-    LBPAREN         reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
-    NUMBER          reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
-    MINUS           reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
-    SYMBOL          reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
-    RPAREN          reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
-    EMPTY           reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
-    $end            reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
-
-
-state 68
-
-    (16) statement -> LPAREN WITH SYMBOL statement statement . RPAREN
-
-    RPAREN          shift and go to state 82
-
-
-state 69
+state 76
 
     (2) statement -> LPAREN RUN statement fdlist defrdSub . RPAREN
 
-    RPAREN          shift and go to state 83
+    RPAREN          shift and go to state 96
 
 
-state 70
+state 77
 
     (4) statement -> LPAREN RUN statement defrdSub RPAREN .
 
-    RBPAREN         reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
+    $end            reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
     LPAREN          reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
     LBPAREN         reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
     NUMBER          reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
     MINUS           reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
     SYMBOL          reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
-    RPAREN          reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
     EMPTY           reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
-    $end            reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
+    RPAREN          reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
+    RBPAREN         reduce using rule 4 (statement -> LPAREN RUN statement defrdSub RPAREN .)
 
 
-state 71
+state 78
 
-    (9) statement -> LBPAREN MINUS statement statement RBPAREN .
+    (6) statement -> LPAREN SUBST statement SYMBOL statement . RPAREN
 
-    RBPAREN         reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
-    LPAREN          reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
-    LBPAREN         reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
-    NUMBER          reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
-    MINUS           reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
-    SYMBOL          reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
-    RPAREN          reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
-    EMPTY           reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
-    $end            reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
+    RPAREN          shift and go to state 97
 
 
-state 72
+state 79
+
+    (8) statement -> LPAREN ADD statement statement RPAREN .
+
+    $end            reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
+    LPAREN          reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
+    LBPAREN         reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
+    NUMBER          reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
+    MINUS           reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
+    SYMBOL          reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
+    EMPTY           reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
+    RPAREN          reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
+    RBPAREN         reduce using rule 8 (statement -> LPAREN ADD statement statement RPAREN .)
+
+
+state 80
+
+    (10) statement -> LPAREN SUB statement statement RPAREN .
+
+    $end            reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
+    LPAREN          reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
+    LBPAREN         reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
+    NUMBER          reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
+    MINUS           reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
+    SYMBOL          reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
+    EMPTY           reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
+    RPAREN          reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
+    RBPAREN         reduce using rule 10 (statement -> LPAREN SUB statement statement RPAREN .)
+
+
+state 81
+
+    (18) statement -> LPAREN WITH SYMBOL statement statement . RPAREN
+
+    RPAREN          shift and go to state 98
+
+
+state 82
+
+    (21) statement -> LPAREN APP SYMBOL statement RPAREN .
+
+    $end            reduce using rule 21 (statement -> LPAREN APP SYMBOL statement RPAREN .)
+    LPAREN          reduce using rule 21 (statement -> LPAREN APP SYMBOL statement RPAREN .)
+    LBPAREN         reduce using rule 21 (statement -> LPAREN APP SYMBOL statement RPAREN .)
+    NUMBER          reduce using rule 21 (statement -> LPAREN APP SYMBOL statement RPAREN .)
+    MINUS           reduce using rule 21 (statement -> LPAREN APP SYMBOL statement RPAREN .)
+    SYMBOL          reduce using rule 21 (statement -> LPAREN APP SYMBOL statement RPAREN .)
+    EMPTY           reduce using rule 21 (statement -> LPAREN APP SYMBOL statement RPAREN .)
+    RPAREN          reduce using rule 21 (statement -> LPAREN APP SYMBOL statement RPAREN .)
+    RBPAREN         reduce using rule 21 (statement -> LPAREN APP SYMBOL statement RPAREN .)
+
+
+state 83
+
+    (35) statement -> LPAREN APP statement statement RPAREN .
+
+    $end            reduce using rule 35 (statement -> LPAREN APP statement statement RPAREN .)
+    LPAREN          reduce using rule 35 (statement -> LPAREN APP statement statement RPAREN .)
+    LBPAREN         reduce using rule 35 (statement -> LPAREN APP statement statement RPAREN .)
+    NUMBER          reduce using rule 35 (statement -> LPAREN APP statement statement RPAREN .)
+    MINUS           reduce using rule 35 (statement -> LPAREN APP statement statement RPAREN .)
+    SYMBOL          reduce using rule 35 (statement -> LPAREN APP statement statement RPAREN .)
+    EMPTY           reduce using rule 35 (statement -> LPAREN APP statement statement RPAREN .)
+    RPAREN          reduce using rule 35 (statement -> LPAREN APP statement statement RPAREN .)
+    RBPAREN         reduce using rule 35 (statement -> LPAREN APP statement statement RPAREN .)
+
+
+state 84
+
+    (33) statement -> LPAREN FUN SYMBOL statement RPAREN .
+
+    $end            reduce using rule 33 (statement -> LPAREN FUN SYMBOL statement RPAREN .)
+    LPAREN          reduce using rule 33 (statement -> LPAREN FUN SYMBOL statement RPAREN .)
+    LBPAREN         reduce using rule 33 (statement -> LPAREN FUN SYMBOL statement RPAREN .)
+    NUMBER          reduce using rule 33 (statement -> LPAREN FUN SYMBOL statement RPAREN .)
+    MINUS           reduce using rule 33 (statement -> LPAREN FUN SYMBOL statement RPAREN .)
+    SYMBOL          reduce using rule 33 (statement -> LPAREN FUN SYMBOL statement RPAREN .)
+    EMPTY           reduce using rule 33 (statement -> LPAREN FUN SYMBOL statement RPAREN .)
+    RPAREN          reduce using rule 33 (statement -> LPAREN FUN SYMBOL statement RPAREN .)
+    RBPAREN         reduce using rule 33 (statement -> LPAREN FUN SYMBOL statement RPAREN .)
+
+
+state 85
 
     (7) statement -> LBPAREN PLUS statement statement RBPAREN .
 
-    RBPAREN         reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
+    $end            reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
     LPAREN          reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
     LBPAREN         reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
     NUMBER          reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
     MINUS           reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
     SYMBOL          reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
-    RPAREN          reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
     EMPTY           reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
-    $end            reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
+    RPAREN          reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
+    RBPAREN         reduce using rule 7 (statement -> LBPAREN PLUS statement statement RBPAREN .)
 
 
-state 73
+state 86
 
-    (15) statement -> LBPAREN WITH LBPAREN SYMBOL statement . RBPAREN statement RBPAREN
+    (9) statement -> LBPAREN MINUS statement statement RBPAREN .
 
-    RBPAREN         shift and go to state 84
-
-
-state 74
-
-    (1) statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .
-
-    RBPAREN         reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
-    LPAREN          reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
-    LBPAREN         reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
-    NUMBER          reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
-    MINUS           reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
-    SYMBOL          reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
-    RPAREN          reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
-    EMPTY           reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
-    $end            reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
+    $end            reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
+    LPAREN          reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
+    LBPAREN         reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
+    NUMBER          reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
+    MINUS           reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
+    SYMBOL          reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
+    EMPTY           reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
+    RPAREN          reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
+    RBPAREN         reduce using rule 9 (statement -> LBPAREN MINUS statement statement RBPAREN .)
 
 
-state 75
+state 87
 
-    (24) fd -> LBPAREN . DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
+    (17) statement -> LBPAREN WITH LBPAREN SYMBOL statement . RBPAREN statement RBPAREN
 
-    DEFFUN          shift and go to state 85
-
-
-state 76
-
-    (21) fdlist -> LPAREN LIST fds . RPAREN
-    (23) fds -> fds . fd
-    (24) fd -> . LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
-    (25) fd -> . LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN
-
-    RPAREN          shift and go to state 87
-    LBPAREN         shift and go to state 75
-    LPAREN          shift and go to state 78
-
-    fd                             shift and go to state 86
-
-state 77
-
-    (22) fds -> fd .
-
-    RPAREN          reduce using rule 22 (fds -> fd .)
-    LBPAREN         reduce using rule 22 (fds -> fd .)
-    LPAREN          reduce using rule 22 (fds -> fd .)
+    RBPAREN         shift and go to state 99
 
 
-state 78
+state 88
 
-    (25) fd -> LPAREN . FUNDEF SYMBOL SYMBOL statement RPAREN
+    (32) statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN . statement RBPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
-    FUNDEF          shift and go to state 88
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
+
+    statement                      shift and go to state 100
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 89
+
+    (28) fd -> LPAREN . FUNDEF SYMBOL SYMBOL statement RPAREN
+
+    FUNDEF          shift and go to state 101
 
 
-state 79
+state 90
 
-    (31) defrdSub -> LPAREN ASUB SYMBOL . number defrdSub RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
+    (24) fdlist -> LPAREN LIST fds . RPAREN
+    (26) fds -> fds . fd
+    (27) fd -> . LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
+    (28) fd -> . LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN
 
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
+    RPAREN          shift and go to state 102
+    LBPAREN         shift and go to state 92
+    LPAREN          shift and go to state 89
 
-    number                         shift and go to state 89
+    fd                             shift and go to state 103
 
-state 80
+state 91
+
+    (25) fds -> fd .
+
+    RPAREN          reduce using rule 25 (fds -> fd .)
+    LBPAREN         reduce using rule 25 (fds -> fd .)
+    LPAREN          reduce using rule 25 (fds -> fd .)
+
+
+state 92
+
+    (27) fd -> LBPAREN . DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
+
+    DEFFUN          shift and go to state 104
+
+
+state 93
 
     (30) defrdSub -> LPAREN MTSUB RPAREN .
 
     RPAREN          reduce using rule 30 (defrdSub -> LPAREN MTSUB RPAREN .)
 
 
-state 81
+state 94
 
-    (6) statement -> LPAREN SUBST statement SYMBOL statement RPAREN .
+    (31) defrdSub -> LPAREN ASUB SYMBOL . number defrdSub RPAREN
+    (36) defrdSub -> LPAREN ASUB SYMBOL . value defrdSub RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (37) value -> . LPAREN NUMV number RPAREN
+    (38) value -> . LPAREN CLOSUREV SYMBOL statement defrdSub RPAREN
 
-    RBPAREN         reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
-    LPAREN          reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
-    LBPAREN         reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
-    NUMBER          reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
-    MINUS           reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
-    SYMBOL          reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
-    RPAREN          reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
-    EMPTY           reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
-    $end            reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    LPAREN          shift and go to state 105
+
+    number                         shift and go to state 106
+    value                          shift and go to state 107
+
+state 95
+
+    (1) statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .
+
+    $end            reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
+    LPAREN          reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
+    LBPAREN         reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
+    NUMBER          reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
+    MINUS           reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
+    SYMBOL          reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
+    EMPTY           reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
+    RPAREN          reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
+    RBPAREN         reduce using rule 1 (statement -> LPAREN INTERP statement fdlist defrdSub RPAREN .)
 
 
-state 82
-
-    (16) statement -> LPAREN WITH SYMBOL statement statement RPAREN .
-
-    RBPAREN         reduce using rule 16 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
-    LPAREN          reduce using rule 16 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
-    LBPAREN         reduce using rule 16 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
-    NUMBER          reduce using rule 16 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
-    MINUS           reduce using rule 16 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
-    SYMBOL          reduce using rule 16 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
-    RPAREN          reduce using rule 16 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
-    EMPTY           reduce using rule 16 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
-    $end            reduce using rule 16 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
-
-
-state 83
+state 96
 
     (2) statement -> LPAREN RUN statement fdlist defrdSub RPAREN .
 
-    RBPAREN         reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
+    $end            reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
     LPAREN          reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
     LBPAREN         reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
     NUMBER          reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
     MINUS           reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
     SYMBOL          reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
-    RPAREN          reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
     EMPTY           reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
-    $end            reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
+    RPAREN          reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
+    RBPAREN         reduce using rule 2 (statement -> LPAREN RUN statement fdlist defrdSub RPAREN .)
 
 
-state 84
+state 97
 
-    (15) statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN . statement RBPAREN
+    (6) statement -> LPAREN SUBST statement SYMBOL statement RPAREN .
+
+    $end            reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+    LPAREN          reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+    LBPAREN         reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+    NUMBER          reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+    MINUS           reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+    SYMBOL          reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+    EMPTY           reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+    RPAREN          reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+    RBPAREN         reduce using rule 6 (statement -> LPAREN SUBST statement SYMBOL statement RPAREN .)
+
+
+state 98
+
+    (18) statement -> LPAREN WITH SYMBOL statement statement RPAREN .
+
+    $end            reduce using rule 18 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
+    LPAREN          reduce using rule 18 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
+    LBPAREN         reduce using rule 18 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
+    NUMBER          reduce using rule 18 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
+    MINUS           reduce using rule 18 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
+    SYMBOL          reduce using rule 18 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
+    EMPTY           reduce using rule 18 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
+    RPAREN          reduce using rule 18 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
+    RBPAREN         reduce using rule 18 (statement -> LPAREN WITH SYMBOL statement statement RPAREN .)
+
+
+state 99
+
+    (17) statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN . statement RBPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
     (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
     (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
@@ -1482,124 +1949,193 @@ state 84
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 90
+    statement                      shift and go to state 108
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
-state 85
+state 100
 
-    (24) fd -> LBPAREN DEFFUN . LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
+    (32) statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement . RBPAREN
 
-    LBPAREN         shift and go to state 91
-
-
-state 86
-
-    (23) fds -> fds fd .
-
-    RPAREN          reduce using rule 23 (fds -> fds fd .)
-    LBPAREN         reduce using rule 23 (fds -> fds fd .)
-    LPAREN          reduce using rule 23 (fds -> fds fd .)
+    RBPAREN         shift and go to state 109
 
 
-state 87
+state 101
 
-    (21) fdlist -> LPAREN LIST fds RPAREN .
+    (28) fd -> LPAREN FUNDEF . SYMBOL SYMBOL statement RPAREN
 
-    LPAREN          reduce using rule 21 (fdlist -> LPAREN LIST fds RPAREN .)
-    RPAREN          reduce using rule 21 (fdlist -> LPAREN LIST fds RPAREN .)
-
-
-state 88
-
-    (25) fd -> LPAREN FUNDEF . SYMBOL SYMBOL statement RPAREN
-
-    SYMBOL          shift and go to state 92
+    SYMBOL          shift and go to state 110
 
 
-state 89
+state 102
+
+    (24) fdlist -> LPAREN LIST fds RPAREN .
+
+    LPAREN          reduce using rule 24 (fdlist -> LPAREN LIST fds RPAREN .)
+    RPAREN          reduce using rule 24 (fdlist -> LPAREN LIST fds RPAREN .)
+
+
+state 103
+
+    (26) fds -> fds fd .
+
+    RPAREN          reduce using rule 26 (fds -> fds fd .)
+    LBPAREN         reduce using rule 26 (fds -> fds fd .)
+    LPAREN          reduce using rule 26 (fds -> fds fd .)
+
+
+state 104
+
+    (27) fd -> LBPAREN DEFFUN . LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN
+
+    LBPAREN         shift and go to state 111
+
+
+state 105
+
+    (37) value -> LPAREN . NUMV number RPAREN
+    (38) value -> LPAREN . CLOSUREV SYMBOL statement defrdSub RPAREN
+
+    NUMV            shift and go to state 112
+    CLOSUREV        shift and go to state 113
+
+
+state 106
 
     (31) defrdSub -> LPAREN ASUB SYMBOL number . defrdSub RPAREN
     (29) defrdSub -> . none
     (30) defrdSub -> . LPAREN MTSUB RPAREN
     (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
-    (32) none -> .
+    (36) defrdSub -> . LPAREN ASUB SYMBOL value defrdSub RPAREN
+    (39) none -> .
 
-    LPAREN          shift and go to state 58
-    RPAREN          reduce using rule 32 (none -> .)
+    LPAREN          shift and go to state 72
+    RPAREN          reduce using rule 39 (none -> .)
 
-    none                           shift and go to state 59
-    defrdSub                       shift and go to state 93
+    defrdSub                       shift and go to state 114
+    none                           shift and go to state 74
 
-state 90
+state 107
 
-    (15) statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement . RBPAREN
+    (36) defrdSub -> LPAREN ASUB SYMBOL value . defrdSub RPAREN
+    (29) defrdSub -> . none
+    (30) defrdSub -> . LPAREN MTSUB RPAREN
+    (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
+    (36) defrdSub -> . LPAREN ASUB SYMBOL value defrdSub RPAREN
+    (39) none -> .
 
-    RBPAREN         shift and go to state 94
+    LPAREN          shift and go to state 72
+    RPAREN          reduce using rule 39 (none -> .)
+
+    defrdSub                       shift and go to state 115
+    none                           shift and go to state 74
+
+state 108
+
+    (17) statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement . RBPAREN
+
+    RBPAREN         shift and go to state 116
 
 
-state 91
+state 109
 
-    (24) fd -> LBPAREN DEFFUN LBPAREN . SYMBOL SYMBOL RBPAREN statement RBPAREN
+    (32) statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .
 
-    SYMBOL          shift and go to state 95
+    $end            reduce using rule 32 (statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .)
+    LPAREN          reduce using rule 32 (statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .)
+    LBPAREN         reduce using rule 32 (statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .)
+    NUMBER          reduce using rule 32 (statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .)
+    MINUS           reduce using rule 32 (statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .)
+    SYMBOL          reduce using rule 32 (statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .)
+    EMPTY           reduce using rule 32 (statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .)
+    RPAREN          reduce using rule 32 (statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .)
+    RBPAREN         reduce using rule 32 (statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN .)
 
 
-state 92
+state 110
 
-    (25) fd -> LPAREN FUNDEF SYMBOL . SYMBOL statement RPAREN
+    (28) fd -> LPAREN FUNDEF SYMBOL . SYMBOL statement RPAREN
 
-    SYMBOL          shift and go to state 96
+    SYMBOL          shift and go to state 117
 
 
-state 93
+state 111
+
+    (27) fd -> LBPAREN DEFFUN LBPAREN . SYMBOL SYMBOL RBPAREN statement RBPAREN
+
+    SYMBOL          shift and go to state 118
+
+
+state 112
+
+    (37) value -> LPAREN NUMV . number RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+
+    number                         shift and go to state 119
+
+state 113
+
+    (38) value -> LPAREN CLOSUREV . SYMBOL statement defrdSub RPAREN
+
+    SYMBOL          shift and go to state 120
+
+
+state 114
 
     (31) defrdSub -> LPAREN ASUB SYMBOL number defrdSub . RPAREN
 
-    RPAREN          shift and go to state 97
+    RPAREN          shift and go to state 121
 
 
-state 94
+state 115
 
-    (15) statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .
+    (36) defrdSub -> LPAREN ASUB SYMBOL value defrdSub . RPAREN
 
-    RBPAREN         reduce using rule 15 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
-    LPAREN          reduce using rule 15 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
-    LBPAREN         reduce using rule 15 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
-    NUMBER          reduce using rule 15 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
-    MINUS           reduce using rule 15 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
-    SYMBOL          reduce using rule 15 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
-    RPAREN          reduce using rule 15 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
-    EMPTY           reduce using rule 15 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
-    $end            reduce using rule 15 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
+    RPAREN          shift and go to state 122
 
 
-state 95
+state 116
 
-    (24) fd -> LBPAREN DEFFUN LBPAREN SYMBOL . SYMBOL RBPAREN statement RBPAREN
+    (17) statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .
 
-    SYMBOL          shift and go to state 98
+    $end            reduce using rule 17 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
+    LPAREN          reduce using rule 17 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
+    LBPAREN         reduce using rule 17 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
+    NUMBER          reduce using rule 17 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
+    MINUS           reduce using rule 17 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
+    SYMBOL          reduce using rule 17 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
+    EMPTY           reduce using rule 17 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
+    RPAREN          reduce using rule 17 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
+    RBPAREN         reduce using rule 17 (statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN .)
 
 
-state 96
+state 117
 
-    (25) fd -> LPAREN FUNDEF SYMBOL SYMBOL . statement RPAREN
+    (28) fd -> LPAREN FUNDEF SYMBOL SYMBOL . statement RPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
     (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
     (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
@@ -1612,50 +2148,146 @@ state 96
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 99
+    statement                      shift and go to state 123
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
-state 97
+state 118
+
+    (27) fd -> LBPAREN DEFFUN LBPAREN SYMBOL . SYMBOL RBPAREN statement RBPAREN
+
+    SYMBOL          shift and go to state 124
+
+
+state 119
+
+    (37) value -> LPAREN NUMV number . RPAREN
+
+    RPAREN          shift and go to state 125
+
+
+state 120
+
+    (38) value -> LPAREN CLOSUREV SYMBOL . statement defrdSub RPAREN
+    (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
+    (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
+    (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
+    (4) statement -> . LPAREN RUN statement defrdSub RPAREN
+    (5) statement -> . LPAREN PARSE statement RPAREN
+    (6) statement -> . LPAREN SUBST statement SYMBOL statement RPAREN
+    (7) statement -> . LBPAREN PLUS statement statement RBPAREN
+    (8) statement -> . LPAREN ADD statement statement RPAREN
+    (9) statement -> . LBPAREN MINUS statement statement RBPAREN
+    (10) statement -> . LPAREN SUB statement statement RPAREN
+    (11) statement -> . number
+    (12) statement -> . LPAREN NUM number RPAREN
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
+
+    LPAREN          shift and go to state 2
+    LBPAREN         shift and go to state 4
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
+
+    statement                      shift and go to state 126
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
+
+state 121
 
     (31) defrdSub -> LPAREN ASUB SYMBOL number defrdSub RPAREN .
 
     RPAREN          reduce using rule 31 (defrdSub -> LPAREN ASUB SYMBOL number defrdSub RPAREN .)
 
 
-state 98
+state 122
 
-    (24) fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL . RBPAREN statement RBPAREN
+    (36) defrdSub -> LPAREN ASUB SYMBOL value defrdSub RPAREN .
 
-    RBPAREN         shift and go to state 100
-
-
-state 99
-
-    (25) fd -> LPAREN FUNDEF SYMBOL SYMBOL statement . RPAREN
-
-    RPAREN          shift and go to state 101
+    RPAREN          reduce using rule 36 (defrdSub -> LPAREN ASUB SYMBOL value defrdSub RPAREN .)
 
 
-state 100
+state 123
 
-    (24) fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN . statement RBPAREN
+    (28) fd -> LPAREN FUNDEF SYMBOL SYMBOL statement . RPAREN
+
+    RPAREN          shift and go to state 127
+
+
+state 124
+
+    (27) fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL . RBPAREN statement RBPAREN
+
+    RBPAREN         shift and go to state 128
+
+
+state 125
+
+    (37) value -> LPAREN NUMV number RPAREN .
+
+    LPAREN          reduce using rule 37 (value -> LPAREN NUMV number RPAREN .)
+    RPAREN          reduce using rule 37 (value -> LPAREN NUMV number RPAREN .)
+
+
+state 126
+
+    (38) value -> LPAREN CLOSUREV SYMBOL statement . defrdSub RPAREN
+    (29) defrdSub -> . none
+    (30) defrdSub -> . LPAREN MTSUB RPAREN
+    (31) defrdSub -> . LPAREN ASUB SYMBOL number defrdSub RPAREN
+    (36) defrdSub -> . LPAREN ASUB SYMBOL value defrdSub RPAREN
+    (39) none -> .
+
+    LPAREN          shift and go to state 72
+    RPAREN          reduce using rule 39 (none -> .)
+
+    defrdSub                       shift and go to state 129
+    none                           shift and go to state 74
+
+state 127
+
+    (28) fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN .
+
+    RPAREN          reduce using rule 28 (fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN .)
+    LBPAREN         reduce using rule 28 (fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN .)
+    LPAREN          reduce using rule 28 (fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN .)
+
+
+state 128
+
+    (27) fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN . statement RBPAREN
     (1) statement -> . LPAREN INTERP statement fdlist defrdSub RPAREN
     (2) statement -> . LPAREN RUN statement fdlist defrdSub RPAREN
     (3) statement -> . LPAREN INTERP statement defrdSub RPAREN
@@ -1668,54 +2300,76 @@ state 100
     (10) statement -> . LPAREN SUB statement statement RPAREN
     (11) statement -> . number
     (12) statement -> . LPAREN NUM number RPAREN
-    (13) statement -> . sym
-    (14) statement -> . LPAREN ID sym RPAREN
-    (15) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
-    (16) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
-    (17) statement -> . LBPAREN SYMBOL statement RBPAREN
-    (18) statement -> . LPAREN APP SYMBOL statement RPAREN
-    (26) number -> . NUMBER
-    (27) number -> . MINUS NUMBER
-    (28) sym -> . SYMBOL
+    (15) statement -> . sym
+    (16) statement -> . LPAREN ID sym RPAREN
+    (17) statement -> . LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN
+    (18) statement -> . LPAREN WITH SYMBOL statement statement RPAREN
+    (20) statement -> . LBPAREN SYMBOL statement RBPAREN
+    (21) statement -> . LPAREN APP SYMBOL statement RPAREN
+    (32) statement -> . LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN
+    (33) statement -> . LPAREN FUN SYMBOL statement RPAREN
+    (34) statement -> . LBPAREN statement statement RBPAREN
+    (35) statement -> . LPAREN APP statement statement RPAREN
+    (13) number -> . NUMBER
+    (14) number -> . MINUS NUMBER
+    (19) sym -> . SYMBOL
 
     LPAREN          shift and go to state 2
     LBPAREN         shift and go to state 4
-    NUMBER          shift and go to state 3
-    MINUS           shift and go to state 7
-    SYMBOL          shift and go to state 6
+    NUMBER          shift and go to state 8
+    MINUS           shift and go to state 5
+    SYMBOL          shift and go to state 3
 
-    sym                            shift and go to state 1
-    number                         shift and go to state 8
-    statement                      shift and go to state 102
+    statement                      shift and go to state 130
+    number                         shift and go to state 6
+    sym                            shift and go to state 7
 
-state 101
+state 129
 
-    (25) fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN .
+    (38) value -> LPAREN CLOSUREV SYMBOL statement defrdSub . RPAREN
 
-    RPAREN          reduce using rule 25 (fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN .)
-    LBPAREN         reduce using rule 25 (fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN .)
-    LPAREN          reduce using rule 25 (fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN .)
+    RPAREN          shift and go to state 131
 
 
-state 102
+state 130
 
-    (24) fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement . RBPAREN
+    (27) fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement . RBPAREN
 
-    RBPAREN         shift and go to state 103
+    RBPAREN         shift and go to state 132
 
 
-state 103
+state 131
 
-    (24) fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN .
+    (38) value -> LPAREN CLOSUREV SYMBOL statement defrdSub RPAREN .
 
-    RPAREN          reduce using rule 24 (fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN .)
-    LBPAREN         reduce using rule 24 (fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN .)
-    LPAREN          reduce using rule 24 (fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN .)
+    LPAREN          reduce using rule 38 (value -> LPAREN CLOSUREV SYMBOL statement defrdSub RPAREN .)
+    RPAREN          reduce using rule 38 (value -> LPAREN CLOSUREV SYMBOL statement defrdSub RPAREN .)
+
+
+state 132
+
+    (27) fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN .
+
+    RPAREN          reduce using rule 27 (fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN .)
+    LBPAREN         reduce using rule 27 (fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN .)
+    LPAREN          reduce using rule 27 (fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN .)
 
 WARNING: 
 WARNING: Conflicts:
 WARNING: 
 WARNING: shift/reduce conflict for LPAREN in state 24 resolved as shift
-WARNING: shift/reduce conflict for LPAREN in state 31 resolved as shift
-WARNING: reduce/reduce conflict in state 39 resolved using rule (fdlist -> none)
-WARNING: rejected rule (defrdSub -> none) in state 39
+WARNING: shift/reduce conflict for LBPAREN in state 24 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 24 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 24 resolved as shift
+WARNING: shift/reduce conflict for SYMBOL in state 24 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 27 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 28 resolved as shift
+WARNING: shift/reduce conflict for LPAREN in state 36 resolved as shift
+WARNING: shift/reduce conflict for LBPAREN in state 36 resolved as shift
+WARNING: shift/reduce conflict for NUMBER in state 36 resolved as shift
+WARNING: shift/reduce conflict for MINUS in state 36 resolved as shift
+WARNING: shift/reduce conflict for SYMBOL in state 36 resolved as shift
+WARNING: reduce/reduce conflict in state 42 resolved using rule (number -> NUMBER)
+WARNING: rejected rule (number -> MINUS NUMBER) in state 42
+WARNING: reduce/reduce conflict in state 49 resolved using rule (fdlist -> none)
+WARNING: rejected rule (defrdSub -> none) in state 49

@@ -5,9 +5,9 @@ _tabversion = '3.10'
 
 _lr_method = 'LALR'
 
-_lr_signature = 'LPAREN RPAREN LBPAREN RBPAREN NUMBER PLUS MINUS SYMBOL SUBST SUB ADD ID RUN LIST EMPTY PARSE NUM WITH FUNDEF APP DEFFUN INTERP ASUB MTSUBstatement : LPAREN INTERP statement fdlist defrdSub RPAREN\n                 | LPAREN RUN statement fdlist defrdSub RPARENstatement : LPAREN INTERP statement defrdSub RPAREN\n                 | LPAREN RUN statement defrdSub RPARENstatement : LPAREN PARSE statement RPARENstatement : LPAREN SUBST statement SYMBOL statement RPARENstatement : LBPAREN PLUS statement statement RBPAREN\n                 | LPAREN ADD statement statement RPARENstatement : LBPAREN MINUS statement statement RBPAREN\n                 | LPAREN SUB statement statement RPARENstatement : numberstatement : LPAREN NUM number RPARENstatement : symstatement : LPAREN ID sym RPARENstatement : LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPARENstatement : LPAREN WITH SYMBOL statement statement RPARENstatement : LBPAREN SYMBOL statement RBPARENstatement : LPAREN APP SYMBOL statement RPARENfdlist : none\n              | EMPTYfdlist : LPAREN LIST fds RPARENfds : fdfds : fds fdfd : LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPARENfd : LPAREN FUNDEF SYMBOL SYMBOL statement RPARENnumber : NUMBERnumber : MINUS NUMBERsym : SYMBOLdefrdSub : none\n                | LPAREN MTSUB RPARENdefrdSub : LPAREN ASUB SYMBOL number defrdSub RPARENnone :'
+_lr_signature = 'LPAREN RPAREN LBPAREN RBPAREN NUMBER PLUS MINUS SYMBOL PARSE RUN SUBST LIST INTERP ADD SUB NUM WITH ID APP FUNDEF DEFFUN EMPTY MTSUB ASUB FUN NUMV CLOSUREVstatement : LPAREN INTERP statement fdlist defrdSub RPAREN\n                 | LPAREN RUN statement fdlist defrdSub RPARENstatement : LPAREN INTERP statement defrdSub RPAREN\n                 | LPAREN RUN statement defrdSub RPARENstatement : LPAREN PARSE statement RPARENstatement : LPAREN SUBST statement SYMBOL statement RPARENstatement : LBPAREN PLUS statement statement RBPAREN\n                 | LPAREN ADD statement statement RPARENstatement : LBPAREN MINUS statement statement RBPAREN\n                 | LPAREN SUB statement statement RPARENstatement : numberstatement : LPAREN NUM number RPARENnumber : NUMBERnumber : MINUS NUMBERstatement : symstatement : LPAREN ID sym RPARENstatement : LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPARENstatement : LPAREN WITH SYMBOL statement statement RPARENsym : SYMBOLstatement : LBPAREN SYMBOL statement RBPARENstatement : LPAREN APP SYMBOL statement RPARENfdlist : none\n              | EMPTYfdlist : LPAREN LIST fds RPARENfds : fdfds : fds fdfd : LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPARENfd : LPAREN FUNDEF SYMBOL SYMBOL statement RPARENdefrdSub : none\n                | LPAREN MTSUB RPARENdefrdSub : LPAREN ASUB SYMBOL number defrdSub RPARENstatement : LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPARENstatement : LPAREN FUN SYMBOL statement RPARENstatement : LBPAREN statement statement RBPARENstatement : LPAREN APP statement statement RPARENdefrdSub : LPAREN ASUB SYMBOL value defrdSub RPARENvalue : LPAREN NUMV number RPARENvalue : LPAREN CLOSUREV SYMBOL statement defrdSub RPARENnone :'
     
-_lr_action_items = {'LIST':([41,],[60,]),'ASUB':([41,58,],[61,61,]),'INTERP':([2,],[9,]),'PLUS':([4,],[21,]),'FUNDEF':([78,],[88,]),'EMPTY':([1,3,6,8,23,24,31,48,51,52,54,63,64,66,67,70,71,72,74,81,82,83,94,],[-13,-26,-28,-11,-27,40,40,-5,-12,-14,-17,-3,-18,-10,-8,-4,-9,-7,-1,-6,-16,-2,-15,]),'MINUS':([0,1,3,4,6,8,9,11,12,13,15,16,17,19,20,21,23,25,27,28,29,34,36,44,47,48,51,52,54,56,63,64,66,67,70,71,72,74,79,81,82,83,84,94,96,100,],[7,-13,-26,19,-28,-11,7,7,7,7,7,7,7,7,7,7,-27,7,7,7,7,7,7,7,7,-5,-12,-14,-17,7,-3,-18,-10,-8,-4,-9,-7,-1,7,-6,-16,-2,7,-15,7,7,]),'LBPAREN':([0,1,3,6,8,9,11,12,13,15,16,19,20,21,22,23,25,27,28,29,34,36,44,47,48,51,52,54,56,60,63,64,66,67,70,71,72,74,76,77,81,82,83,84,85,86,94,96,100,101,103,],[4,-13,-26,-28,-11,4,4,4,4,4,4,4,4,4,37,-27,4,4,4,4,4,4,4,4,-5,-12,-14,-17,4,75,-3,-18,-10,-8,-4,-9,-7,-1,75,-22,-6,-16,-2,4,91,-23,-15,4,4,-25,-24,]),'PARSE':([2,],[15,]),'ADD':([2,],[13,]),'LPAREN':([0,1,3,6,8,9,11,12,13,15,16,19,20,21,23,24,25,27,28,29,31,34,36,38,39,40,44,47,48,49,51,52,54,56,60,63,64,66,67,70,71,72,74,76,77,81,82,83,84,86,87,89,94,96,100,101,103,],[2,-13,-26,-28,-11,2,2,2,2,2,2,2,2,2,-27,41,2,2,2,2,41,2,2,58,-19,-20,2,2,-5,58,-12,-14,-17,2,78,-3,-18,-10,-8,-4,-9,-7,-1,78,-22,-6,-16,-2,2,-23,-21,58,-15,2,2,-25,-24,]),'RUN':([2,],[16,]),'SUBST':([2,],[11,]),'NUM':([2,],[17,]),'$end':([1,3,5,6,8,23,48,51,52,54,63,64,66,67,70,71,72,74,81,82,83,94,],[-13,-26,0,-28,-11,-27,-5,-12,-14,-17,-3,-18,-10,-8,-4,-9,-7,-1,-6,-16,-2,-15,]),'MTSUB':([41,58,],[62,62,]),'SYMBOL':([0,1,3,4,6,8,9,10,11,12,13,14,15,16,18,19,20,21,23,25,26,27,28,29,34,36,37,44,47,48,51,52,54,56,61,63,64,66,67,70,71,72,74,81,82,83,84,88,91,92,94,95,96,100,],[6,-13,-26,20,-28,-11,6,25,6,6,6,29,6,6,6,6,6,6,-27,6,44,6,6,6,6,6,56,6,6,-5,-12,-14,-17,6,79,-3,-18,-10,-8,-4,-9,-7,-1,-6,-16,-2,6,92,95,96,-15,98,6,6,]),'RBPAREN':([1,3,6,8,23,35,48,51,52,53,54,55,63,64,66,67,70,71,72,73,74,81,82,83,90,94,98,102,],[-13,-26,-28,-11,-27,54,-5,-12,-14,71,-17,72,-3,-18,-10,-8,-4,-9,-7,84,-1,-6,-16,-2,94,-15,100,103,]),'RPAREN':([1,3,6,8,23,24,30,31,32,33,38,39,40,42,43,45,46,48,49,50,51,52,54,57,59,62,63,64,65,66,67,68,69,70,71,72,74,76,77,80,81,82,83,86,87,89,93,94,97,99,101,103,],[-13,-26,-28,-11,-27,-32,48,-32,51,52,-32,-19,-20,63,64,66,67,-5,-32,70,-12,-14,-17,74,-29,80,-3,-18,81,-10,-8,82,83,-4,-9,-7,-1,87,-22,-30,-6,-16,-2,-23,-21,-32,97,-15,-31,101,-25,-24,]),'WITH':([2,4,],[14,22,]),'SUB':([2,],[12,]),'DEFFUN':([75,],[85,]),'ID':([2,],[18,]),'APP':([2,],[10,]),'NUMBER':([0,1,3,6,7,8,9,11,12,13,15,16,17,19,20,21,23,25,27,28,29,34,36,44,47,48,51,52,54,56,63,64,66,67,70,71,72,74,79,81,82,83,84,94,96,100,],[3,-13,-26,-28,23,-11,3,3,3,3,3,3,3,3,3,3,-27,3,3,3,3,3,3,3,3,-5,-12,-14,-17,3,-3,-18,-10,-8,-4,-9,-7,-1,3,-6,-16,-2,3,-15,3,3,]),}
+_lr_action_items = {'LPAREN':([0,3,4,6,7,8,9,10,11,12,13,14,18,20,21,22,24,26,27,28,31,32,35,36,37,38,39,41,42,47,49,50,51,53,54,57,58,59,64,66,67,69,75,77,79,80,82,83,84,85,86,88,90,91,94,95,96,97,98,99,102,103,106,107,109,116,117,120,125,126,127,128,131,132,],[2,-19,2,-11,-15,-13,2,2,2,2,2,2,2,2,2,2,2,-14,46,46,2,2,2,2,2,2,2,2,-13,72,-22,-23,72,-5,2,-12,-16,2,-34,2,-20,89,-3,-4,-8,-10,-21,-35,-33,-7,-9,2,89,-25,105,-1,-2,-6,-18,2,-24,-26,72,72,-32,-17,2,2,-37,72,-28,2,-38,-27,]),'LBPAREN':([0,3,4,6,7,8,9,10,11,12,13,14,18,20,21,22,23,24,25,26,31,32,35,36,37,38,39,41,42,53,54,57,58,59,64,66,67,69,75,77,79,80,82,83,84,85,86,88,90,91,95,96,97,98,99,103,104,109,116,117,120,127,128,132,],[4,-19,4,-11,-15,-13,4,4,4,4,4,4,4,4,4,4,43,4,45,-14,4,4,4,4,4,4,4,4,-13,-5,4,-12,-16,4,-34,4,-20,92,-3,-4,-8,-10,-21,-35,-33,-7,-9,4,92,-25,-1,-2,-6,-18,4,-26,111,-32,-17,4,4,-28,4,-27,]),'NUMBER':([0,3,4,5,6,7,8,9,10,11,12,13,14,15,18,20,21,22,24,26,31,32,35,36,37,38,39,41,42,53,54,57,58,59,64,66,67,75,77,79,80,82,83,84,85,86,88,94,95,96,97,98,99,109,112,116,117,120,128,],[8,-19,8,26,-11,-15,-13,8,8,8,8,8,8,8,8,8,8,42,8,-14,8,8,8,8,8,8,8,8,-13,-5,8,-12,-16,8,-34,8,-20,-3,-4,-8,-10,-21,-35,-33,-7,-9,8,8,-1,-2,-6,-18,8,-32,8,-17,8,8,8,]),'MINUS':([0,3,4,6,7,8,9,10,11,12,13,14,15,18,20,21,22,24,26,31,32,35,36,37,38,39,41,42,53,54,57,58,59,64,66,67,75,77,79,80,82,83,84,85,86,88,94,95,96,97,98,99,109,112,116,117,120,128,],[5,-19,22,-11,-15,-13,5,5,5,5,5,5,5,5,5,5,5,5,-14,5,5,5,5,5,5,5,5,-13,-5,5,-12,-16,5,-34,5,-20,-3,-4,-8,-10,-21,-35,-33,-7,-9,5,5,-1,-2,-6,-18,5,-32,5,-17,5,5,5,]),'SYMBOL':([0,3,4,6,7,8,9,10,11,12,13,14,16,17,18,19,20,21,22,24,26,30,31,32,35,36,37,38,39,41,42,43,45,53,54,57,58,59,64,66,67,71,75,77,79,80,82,83,84,85,86,88,95,96,97,98,99,101,109,110,111,113,116,117,118,120,128,],[3,-19,24,-11,-15,-13,3,3,3,3,3,3,3,35,36,38,3,3,3,3,-14,54,3,3,3,3,3,3,3,3,-13,66,68,-5,3,-12,-16,3,-34,3,-20,94,-3,-4,-8,-10,-21,-35,-33,-7,-9,3,-1,-2,-6,-18,3,110,-32,117,118,120,-17,3,124,3,3,]),'$end':([1,3,6,7,8,26,53,57,58,64,67,75,77,79,80,82,83,84,85,86,95,96,97,98,109,116,],[0,-19,-11,-15,-13,-14,-5,-12,-16,-34,-20,-3,-4,-8,-10,-21,-35,-33,-7,-9,-1,-2,-6,-18,-32,-17,]),'INTERP':([2,],[9,]),'RUN':([2,],[10,]),'PARSE':([2,],[11,]),'SUBST':([2,],[12,]),'ADD':([2,],[13,]),'SUB':([2,],[14,]),'NUM':([2,],[15,]),'ID':([2,],[16,]),'WITH':([2,4,],[17,23,]),'APP':([2,],[18,]),'FUN':([2,4,],[19,25,]),'EMPTY':([3,6,7,8,26,27,28,53,57,58,64,67,75,77,79,80,82,83,84,85,86,95,96,97,98,109,116,],[-19,-11,-15,-13,-14,50,50,-5,-12,-16,-34,-20,-3,-4,-8,-10,-21,-35,-33,-7,-9,-1,-2,-6,-18,-32,-17,]),'RPAREN':([3,6,7,8,26,27,28,29,33,34,47,48,49,50,51,52,53,55,56,57,58,60,61,62,64,67,70,73,74,75,76,77,78,79,80,81,82,83,84,85,86,90,91,93,95,96,97,98,102,103,106,107,109,114,115,116,119,121,122,123,125,126,127,129,131,132,],[-19,-11,-15,-13,-14,-39,-39,53,57,58,-39,75,-22,-23,-39,77,-5,79,80,-12,-16,82,83,84,-34,-20,93,95,-29,-3,96,-4,97,-8,-10,98,-21,-35,-33,-7,-9,102,-25,-30,-1,-2,-6,-18,-24,-26,-39,-39,-32,121,122,-17,125,-31,-36,127,-37,-39,-28,131,-38,-27,]),'RBPAREN':([3,6,7,8,26,40,44,53,57,58,63,64,65,67,68,75,77,79,80,82,83,84,85,86,87,95,96,97,98,100,108,109,116,124,130,],[-19,-11,-15,-13,-14,64,67,-5,-12,-16,85,-34,86,-20,88,-3,-4,-8,-10,-21,-35,-33,-7,-9,99,-1,-2,-6,-18,109,116,-32,-17,128,132,]),'PLUS':([4,],[20,]),'LIST':([46,],[69,]),'MTSUB':([46,72,],[70,70,]),'ASUB':([46,72,],[71,71,]),'FUNDEF':([89,],[101,]),'DEFFUN':([92,],[104,]),'NUMV':([105,],[112,]),'CLOSUREV':([105,],[113,]),}
 
 _lr_action = {}
 for _k, _v in _lr_action_items.items():
@@ -16,7 +16,7 @@ for _k, _v in _lr_action_items.items():
       _lr_action[_x][_k] = _y
 del _lr_action_items
 
-_lr_goto_items = {'sym':([0,9,11,12,13,15,16,18,19,20,21,25,27,28,29,34,36,44,47,56,84,96,100,],[1,1,1,1,1,1,1,33,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,]),'fdlist':([24,31,],[38,49,]),'statement':([0,9,11,12,13,15,16,19,20,21,25,27,28,29,34,36,44,47,56,84,96,100,],[5,24,26,27,28,30,31,34,35,36,43,45,46,47,53,55,65,68,73,90,99,102,]),'defrdSub':([24,31,38,49,89,],[42,50,57,69,93,]),'fd':([60,76,],[77,86,]),'number':([0,9,11,12,13,15,16,17,19,20,21,25,27,28,29,34,36,44,47,56,79,84,96,100,],[8,8,8,8,8,8,8,32,8,8,8,8,8,8,8,8,8,8,8,8,89,8,8,8,]),'none':([24,31,38,49,89,],[39,39,59,59,59,]),'fds':([60,],[76,]),}
+_lr_goto_items = {'statement':([0,4,9,10,11,12,13,14,18,20,21,22,24,31,32,35,36,37,38,39,41,54,59,66,88,99,117,120,128,],[1,21,27,28,29,30,31,32,37,39,40,41,44,55,56,59,60,61,62,63,65,78,81,87,100,108,123,126,130,]),'number':([0,4,9,10,11,12,13,14,15,18,20,21,22,24,31,32,35,36,37,38,39,41,54,59,66,88,94,99,112,117,120,128,],[6,6,6,6,6,6,6,6,33,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,6,106,6,119,6,6,6,]),'sym':([0,4,9,10,11,12,13,14,16,18,20,21,22,24,31,32,35,36,37,38,39,41,54,59,66,88,99,117,120,128,],[7,7,7,7,7,7,7,7,34,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,7,]),'fdlist':([27,28,],[47,51,]),'defrdSub':([27,28,47,51,106,107,126,],[48,52,73,76,114,115,129,]),'none':([27,28,47,51,106,107,126,],[49,49,74,74,74,74,74,]),'fds':([69,],[90,]),'fd':([69,90,],[91,103,]),'value':([94,],[107,]),}
 
 _lr_goto = {}
 for _k, _v in _lr_goto_items.items():
@@ -26,36 +26,43 @@ for _k, _v in _lr_goto_items.items():
 del _lr_goto_items
 _lr_productions = [
   ("S' -> statement","S'",1,None,None,None),
-  ('statement -> LPAREN INTERP statement fdlist defrdSub RPAREN','statement',6,'p_interp_F1WAE','parse_rules.py',7),
-  ('statement -> LPAREN RUN statement fdlist defrdSub RPAREN','statement',6,'p_interp_F1WAE','parse_rules.py',8),
-  ('statement -> LPAREN INTERP statement defrdSub RPAREN','statement',5,'p_interp_DefrdSub','parse_rules.py',14),
-  ('statement -> LPAREN RUN statement defrdSub RPAREN','statement',5,'p_interp_DefrdSub','parse_rules.py',15),
-  ('statement -> LPAREN PARSE statement RPAREN','statement',4,'p_parse_WAE','parse_rules.py',20),
-  ('statement -> LPAREN SUBST statement SYMBOL statement RPAREN','statement',6,'p_subst_WAE','parse_rules.py',25),
-  ('statement -> LBPAREN PLUS statement statement RBPAREN','statement',5,'p_parse_statement_add','parse_rules.py',30),
-  ('statement -> LPAREN ADD statement statement RPAREN','statement',5,'p_parse_statement_add','parse_rules.py',31),
-  ('statement -> LBPAREN MINUS statement statement RBPAREN','statement',5,'p_parse_statement_sub','parse_rules.py',36),
-  ('statement -> LPAREN SUB statement statement RPAREN','statement',5,'p_parse_statement_sub','parse_rules.py',37),
-  ('statement -> number','statement',1,'p_parse_statement_num','parse_rules.py',42),
-  ('statement -> LPAREN NUM number RPAREN','statement',4,'p_parse_statement_num2','parse_rules.py',47),
-  ('statement -> sym','statement',1,'p_parse_statement_symbol','parse_rules.py',52),
-  ('statement -> LPAREN ID sym RPAREN','statement',4,'p_parse_statement_symbol2','parse_rules.py',57),
-  ('statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN','statement',8,'p_parse_statement_with','parse_rules.py',62),
-  ('statement -> LPAREN WITH SYMBOL statement statement RPAREN','statement',6,'p_parse_statement_with2','parse_rules.py',67),
-  ('statement -> LBPAREN SYMBOL statement RBPAREN','statement',4,'p_parse_statement_app','parse_rules.py',72),
-  ('statement -> LPAREN APP SYMBOL statement RPAREN','statement',5,'p_parse_statement_app2','parse_rules.py',77),
-  ('fdlist -> none','fdlist',1,'p_parse_fundefs_rule_empty','parse_rules.py',82),
-  ('fdlist -> EMPTY','fdlist',1,'p_parse_fundefs_rule_empty','parse_rules.py',83),
-  ('fdlist -> LPAREN LIST fds RPAREN','fdlist',4,'p_parse_fdlist_rule_list','parse_rules.py',87),
-  ('fds -> fd','fds',1,'p_parse_fundefs_rule_one','parse_rules.py',91),
-  ('fds -> fds fd','fds',2,'p_parse_fundefs_rule_concat','parse_rules.py',96),
-  ('fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN','fd',8,'p_parse_fundef','parse_rules.py',102),
-  ('fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN','fd',6,'p_parse_fundef2','parse_rules.py',107),
-  ('number -> NUMBER','number',1,'p_parse_num','parse_rules.py',112),
-  ('number -> MINUS NUMBER','number',2,'p_parse_minus_num','parse_rules.py',117),
-  ('sym -> SYMBOL','sym',1,'p_parse_symbol','parse_rules.py',122),
-  ('defrdSub -> none','defrdSub',1,'p_parse_mtsub','parse_rules.py',127),
-  ('defrdSub -> LPAREN MTSUB RPAREN','defrdSub',3,'p_parse_mtsub','parse_rules.py',128),
-  ('defrdSub -> LPAREN ASUB SYMBOL number defrdSub RPAREN','defrdSub',6,'p_parse_asub','parse_rules.py',133),
-  ('none -> <empty>','none',0,'p_empty','parse_rules.py',142),
+  ('statement -> LPAREN INTERP statement fdlist defrdSub RPAREN','statement',6,'p_interp_F1WAE','parse_rules.py',9),
+  ('statement -> LPAREN RUN statement fdlist defrdSub RPAREN','statement',6,'p_interp_F1WAE','parse_rules.py',10),
+  ('statement -> LPAREN INTERP statement defrdSub RPAREN','statement',5,'p_interp_DefrdSub','parse_rules.py',16),
+  ('statement -> LPAREN RUN statement defrdSub RPAREN','statement',5,'p_interp_DefrdSub','parse_rules.py',17),
+  ('statement -> LPAREN PARSE statement RPAREN','statement',4,'p_parse_WAE','parse_rules.py',22),
+  ('statement -> LPAREN SUBST statement SYMBOL statement RPAREN','statement',6,'p_subst_WAE','parse_rules.py',27),
+  ('statement -> LBPAREN PLUS statement statement RBPAREN','statement',5,'p_parse_statement_add','parse_rules.py',33),
+  ('statement -> LPAREN ADD statement statement RPAREN','statement',5,'p_parse_statement_add','parse_rules.py',34),
+  ('statement -> LBPAREN MINUS statement statement RBPAREN','statement',5,'p_parse_statement_sub','parse_rules.py',39),
+  ('statement -> LPAREN SUB statement statement RPAREN','statement',5,'p_parse_statement_sub','parse_rules.py',40),
+  ('statement -> number','statement',1,'p_parse_statement_num','parse_rules.py',45),
+  ('statement -> LPAREN NUM number RPAREN','statement',4,'p_parse_statement_num2','parse_rules.py',50),
+  ('number -> NUMBER','number',1,'p_parse_num','parse_rules.py',55),
+  ('number -> MINUS NUMBER','number',2,'p_parse_minus_num','parse_rules.py',60),
+  ('statement -> sym','statement',1,'p_parse_statement_symbol','parse_rules.py',66),
+  ('statement -> LPAREN ID sym RPAREN','statement',4,'p_parse_statement_symbol2','parse_rules.py',71),
+  ('statement -> LBPAREN WITH LBPAREN SYMBOL statement RBPAREN statement RBPAREN','statement',8,'p_parse_statement_with','parse_rules.py',76),
+  ('statement -> LPAREN WITH SYMBOL statement statement RPAREN','statement',6,'p_parse_statement_with2','parse_rules.py',81),
+  ('sym -> SYMBOL','sym',1,'p_parse_symbol','parse_rules.py',86),
+  ('statement -> LBPAREN SYMBOL statement RBPAREN','statement',4,'p_parse_statement_app','parse_rules.py',92),
+  ('statement -> LPAREN APP SYMBOL statement RPAREN','statement',5,'p_parse_statement_app2','parse_rules.py',97),
+  ('fdlist -> none','fdlist',1,'p_parse_fundefs_rule_empty','parse_rules.py',102),
+  ('fdlist -> EMPTY','fdlist',1,'p_parse_fundefs_rule_empty','parse_rules.py',103),
+  ('fdlist -> LPAREN LIST fds RPAREN','fdlist',4,'p_parse_fdlist_rule_list','parse_rules.py',107),
+  ('fds -> fd','fds',1,'p_parse_fundefs_rule_one','parse_rules.py',111),
+  ('fds -> fds fd','fds',2,'p_parse_fundefs_rule_concat','parse_rules.py',116),
+  ('fd -> LBPAREN DEFFUN LBPAREN SYMBOL SYMBOL RBPAREN statement RBPAREN','fd',8,'p_parse_fundef','parse_rules.py',122),
+  ('fd -> LPAREN FUNDEF SYMBOL SYMBOL statement RPAREN','fd',6,'p_parse_fundef2','parse_rules.py',127),
+  ('defrdSub -> none','defrdSub',1,'p_parse_mtsub','parse_rules.py',133),
+  ('defrdSub -> LPAREN MTSUB RPAREN','defrdSub',3,'p_parse_mtsub','parse_rules.py',134),
+  ('defrdSub -> LPAREN ASUB SYMBOL number defrdSub RPAREN','defrdSub',6,'p_parse_asub','parse_rules.py',139),
+  ('statement -> LBPAREN FUN LBPAREN SYMBOL RBPAREN statement RBPAREN','statement',7,'p_parse_fun1','parse_rules.py',145),
+  ('statement -> LPAREN FUN SYMBOL statement RPAREN','statement',5,'p_parse_fun2','parse_rules.py',150),
+  ('statement -> LBPAREN statement statement RBPAREN','statement',4,'p_parse_app_fae1','parse_rules.py',155),
+  ('statement -> LPAREN APP statement statement RPAREN','statement',5,'p_parse_app_fae2','parse_rules.py',160),
+  ('defrdSub -> LPAREN ASUB SYMBOL value defrdSub RPAREN','defrdSub',6,'p_parse_asub_value_fae','parse_rules.py',164),
+  ('value -> LPAREN NUMV number RPAREN','value',4,'p_parse_numv','parse_rules.py',168),
+  ('value -> LPAREN CLOSUREV SYMBOL statement defrdSub RPAREN','value',6,'p_parse_closureV','parse_rules.py',172),
+  ('none -> <empty>','none',0,'p_empty','parse_rules.py',179),
 ]
